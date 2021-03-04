@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User } from 'src/types/user';
 import { LoginDTO, RegisterDTO } from '../auth/auth.dto';
+import { Payload } from '../types/payload';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -42,6 +43,17 @@ export class UserService {
         }
     }
 
+
+    async findByPayload(payload: Payload) {
+        const { email } = payload;
+        return await this.userModel.findOne({ email });
+      }
+
+      //  get all users
+      async findAllusers() {
+          const users = await this.userModel.find({'isAdmin':false});
+          return users;
+      }
 
     sanitizeUser(user: User) {
         const sanitized = user.toObject();

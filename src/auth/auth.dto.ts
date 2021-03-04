@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-
+import { ApiProperty } from '@nestjs/swagger';
 import { Address } from '../types/user';
 
 // export type WithEmail = {
@@ -12,12 +12,19 @@ import { Address } from '../types/user';
 
 // export type LoginDTO = { password: string } & (WithEmail | WithMobile)
 
-export interface RegisterDTO {
+export class RegisterDTO {
+    @ApiProperty()
     fullName: string;
+    @ApiProperty()
     password: string;
+    @ApiProperty()
+    isAdmin:boolean;
+    @ApiProperty()
     email: string;
+    @ApiProperty()
     phoneNumber: number;
-    address?: Address;
+    @ApiProperty()
+    address?: [Address];
 }
 
 

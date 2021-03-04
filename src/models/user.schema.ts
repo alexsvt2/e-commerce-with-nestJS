@@ -9,6 +9,10 @@ export const UserSchema = new mongoose.Schema({
         minlength:3,
         maxlength: 15,
     },
+    isAdmin:{
+      type:Boolean,
+      default:false
+    },
     email: {
         type: String,
         required: true,
@@ -23,12 +27,13 @@ export const UserSchema = new mongoose.Schema({
     type: Number,
     requierd:true
   },
-  address: {
+  address: [{
     addr1: String,
     neighborhood: String,
     city: String,
-    description:String
-  },
+    description:String,
+    country: String
+  }],
   createDate: { type: Date, default: Date.now },
 });
 

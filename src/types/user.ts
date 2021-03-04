@@ -5,7 +5,8 @@ export interface Address {
     addr1: string,
     neighborhood: string,
     city: string,
-    description: string
+    description: string,
+    country: string
 }
 
 
@@ -13,9 +14,8 @@ export interface Address {
 export interface User extends Document {
     fullName: string;
     email: string,
+    isAdmin:boolean,
     phoneNumber: string,
     password: string;
-    seller: boolean;
-    address: Address;
-    created: Date;
+    address: [Address];
 }
