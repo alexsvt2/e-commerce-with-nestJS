@@ -1,11 +1,17 @@
 /* eslint-disable prettier/prettier */
+import { ApiProperty } from '@nestjs/swagger';
 import { Document } from 'mongoose';
 
-export interface Address {
-    addr1: string,
-    neighborhood: string,
-    city: string,
-    description: string,
+export class Address {
+    @ApiProperty()
+    addr1: string;
+    @ApiProperty()
+    neighborhood: string;
+    @ApiProperty()
+    city: string;
+    @ApiProperty()
+    description: string;
+    @ApiProperty()
     country: string
 }
 

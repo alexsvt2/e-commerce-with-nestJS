@@ -1,11 +1,15 @@
 /* eslint-disable prettier/prettier */
+import { ApiProperty } from '@nestjs/swagger';
 import { Document } from 'mongoose';
 import { Category } from './category';
 import { Name } from './shared.dto';
 
-export interface Image {
-  path: string,
-  order ?: number,
+export class Image {
+  @ApiProperty()
+  path: string;
+  @ApiProperty()
+  order ?: number;
+  @ApiProperty()
   key: string
 }
 
