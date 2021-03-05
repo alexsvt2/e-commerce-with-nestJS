@@ -21,6 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "@nestjs/common": "^7.5.1",
     "@nestjs/config": "^0.6.3",
     "@nestjs/core": "^7.5.1",
@@ -29,6 +30,7 @@
     "@nestjs/platform-express": "^7.5.1",
     "@nestjs/swagger": "^4.7.15",
     "@types/aws-sdk": "^2.7.0",
+    "@types/hapi__joi": "^17.1.6",
     "@types/uuid": "^8.3.0",
     "aws-sdk": "^2.854.0",
     "bcrypt": "^5.0.0",
