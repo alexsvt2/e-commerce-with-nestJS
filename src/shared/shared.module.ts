@@ -4,9 +4,13 @@ import { UserSchema } from 'src/models/user.schema';
 import { FilesService } from './uploadFile.service';
 import { UserService } from './user.service';
 import { UploadController } from './upload/upload.controller';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
-  imports: [MongooseModule.forFeature([{ name: 'User', schema: UserSchema }])],
+  imports: [
+    MongooseModule.forFeature([{ name: 'User', schema: UserSchema }]),
+    ConfigService,
+  ],
   providers: [UserService, FilesService],
   exports: [UserService, FilesService],
   controllers: [UploadController],

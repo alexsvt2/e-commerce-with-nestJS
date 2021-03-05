@@ -10,8 +10,12 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
-    MongooseModule.forRoot('mongodb+srv://admin:admin@cluster0.4ieuw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    MongooseModule.forRoot(
+      'mongodb+srv://admin:admin@cluster0.4ieuw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+    ),
     SharedModule,
     AuthModule,
     ProductModule,

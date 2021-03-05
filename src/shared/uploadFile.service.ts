@@ -7,7 +7,7 @@ import { v4 as uuid } from 'uuid';
 @Injectable()
 export class FilesService {
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    constructor(private readonly configService: ConfigService  ) { }
+    constructor( private readonly configService: ConfigService) { }
 
     async uploadPublicFile(dataBuffer: Buffer, filename: string) {
         const s3 = new S3();
