@@ -30,7 +30,7 @@ export class UserService {
         const { email, password, phoneNumber } = userDTO;
         const user = await this.userModel
             .findOne({ $or: [{ email }, { phoneNumber }] })
-            .select('fullName password email createDate address phoneNumber');  
+            .select('fullName password email createDate address phoneNumber isAdmin');  
 
         if (!user) {
             throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);

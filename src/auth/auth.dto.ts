@@ -29,6 +29,6 @@ export class RegisterDTO {
 
 
 // other way
-type WithMobile = { password: string, email: string, phoneNumber: never }
+type WithMobile = { password: string, email: never, phoneNumber: number }
 type WithEmail = { password: string, email: string, phoneNumber: never }
 export type LoginDTO = (WithEmail | WithMobile)
