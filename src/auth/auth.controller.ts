@@ -39,16 +39,12 @@ export class AuthController {
 
     @Get('getUsers')
     @UseGuards(AuthGuard('jwt') , AdminGuard)
-    async getUsers(@Query() page:number , @Query() numberOfRecords:number){
-        const users = this.userService.findAllusers(page );
+    async getUsers(@Query() query:any){
+        const {perPage , page, ...restQuery} = query
+
+        const users = this.userService.findAllusers(page,perPage,restQuery );
         return users;
     }
 
-    @Get('searchUsers')
-    @UseGuards(AuthGuard('jwt') , AdminGuard)
-    async getUsersByFilter(@Query() page:number , @Query() numberOfRecords:number, 
-    @Query() userFilter : RegisterDTO){
-        const users = this.userService.findAllusersFilter(page , userFilter);
-        return users;
-    }
+ 
 }

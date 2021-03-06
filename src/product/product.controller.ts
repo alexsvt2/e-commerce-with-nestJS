@@ -18,22 +18,19 @@ export class ProductController {
      }
 
      @Get('/allProducts')
-     async getAllProduct(@Query() page:number ){
-         
-         return await this.productService.findAll(page);
+     async getAllProduct(@Query() query:any){
+         const {perPage , page, ...restQuery} = query
+         return await this.productService.findAll(page,perPage , restQuery);
      }
 
-     @Get('/searchProducts')
-     async getAllProductBySearch(@Query() page:number ,
-     @Query() product: CreateProductDTO ){
-         return await this.productService.filterFindAll(page,product);
-     }
-
+ 
 
      @Get('/getByCategory/:id')
      async getProductByCategoryId(@Param('id') id: string,
-     @Query() page:number){
-         return this.productService.findByCategory(id,page);
+     @Query() query:any){
+        const {perPage , page} = query
+
+         return this.productService.findByCategory(id,page,perPage);
      }
 
      @Get('/getById/:id')

@@ -9,61 +9,61 @@ import { CreateProductDTO, UpdateProductDTO } from './product.dto';
 @Injectable()
 export class ProductService {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  constructor(@InjectModel('Product') private productModel: Model<product>) {}
+  constructor(@InjectModel('Product') private productModel: Model<product>) { }
 
-  async findAll(page: any ) {
-    const pageNo = page.page;
-    const size =10;
-    const query = {
-      skip : size * (pageNo - 1),
-      limit : size
+  async findAll(page: number = 1, perPage: number = 10, query: any) {
+    const pageNo = Number(page);
+    const size = Number(perPage);
+    const queryPage = {
+      skip: size * (pageNo - 1),
+      limit: size
     }
-
-    const products = await this.productModel.find({},{},query)
+    
+    const products = await this.productModel.find(query, {}, queryPage)
       .populate('category')
-      .sort({'createDate': -1});
+      .sort({ 'createDate': -1 });
 
-    const productsCount = products.length;
+    const productsCount = await this.productModel.count(query);
     const totalPages = Math.ceil(productsCount / size)
-    return {products, totalPages}
+    return { products, totalPages }
   }
 
   // filter 
-  async filterFindAll(page: any , filterBody: CreateProductDTO) {
+  async filterFindAll(page: any, filterBody: CreateProductDTO) {
     const filter = filterBody;
     const pageNo = page.page;
-    const size =10;
+    const size = 10;
     const query = {
-      skip : size * (pageNo - 1),
-      limit : size
+      skip: size * (pageNo - 1),
+      limit: size
     }
 
 
-    const products = await this.productModel.find( filter, {}, query)
-    .populate('category')
-    .sort({'createDate': -1});
+    const products = await this.productModel.find(filter, {}, query)
+      .populate('category')
+      .sort({ 'createDate': -1 });
 
     const productsCount = products.length;
     const totalPages = Math.ceil(productsCount / size)
-    return {products, totalPages}
-   
+    return { products, totalPages }
+
   }
   // by category
-  async findByCategory(id: any , page: any) {
-    const pageNo = page.page;
-    const size =10;
+  async findByCategory(id: any, page: number = 1, perPage: number = 10) {
+    const pageNo =Number(page);
+    const size = Number(perPage);
     const query = {
-      skip : size * (pageNo - 1),
-      limit : size
+      skip: size * (pageNo - 1),
+      limit: size
     }
 
-    const products =  await this.productModel.find({ category: id},{},query )
-    .populate('category')
-     .sort({'createDate': -1});
+    const products = await this.productModel.find({ category: id }, {}, query)
+      .populate('category')
+      .sort({ 'createDate': -1 });
 
-     const productsCount = products.length;
+    const productsCount = await this.productModel.count({ category: id });
     const totalPages = Math.ceil(productsCount / size)
-    return {products, totalPages}
+    return { products, totalPages }
   }
 
   async findById(id: string): Promise<product> {

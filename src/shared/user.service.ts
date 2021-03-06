@@ -51,16 +51,16 @@ export class UserService {
 
       //  get all users
       // eslint-disable-next-line @typescript-eslint/no-inferrable-types
-      async findAllusers(page: any ) {
-        const pageNo = page.page;
-        const size =10;
-        const query = {
+      async findAllusers( page: number = 1, perPage: number = 10, query:any ) {
+        const pageNo = Number(page);
+        const size =Number(perPage);
+        const queryPage = {
           skip : size * (pageNo - 1),
           limit : size
         }
     
-          const users = await this.userModel.find({'isAdmin':false,},{},query);
-          const userCount = users.length;
+          const users = await this.userModel.find(query,{},queryPage);
+          const userCount = await this.userModel.count();
           const totalPages = Math.ceil(userCount / size)
           return {users, totalPages}
       }
