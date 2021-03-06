@@ -50,11 +50,37 @@ export class UserService {
       }
 
       //  get all users
-      async findAllusers() {
-          const users = await this.userModel.find({'isAdmin':false});
-          return users;
+      // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+      async findAllusers(page: any ) {
+        const pageNo = page.page;
+        const size =10;
+        const query = {
+          skip : size * (pageNo - 1),
+          limit : size
+        }
+    
+          const users = await this.userModel.find({'isAdmin':false,},{},query);
+          const userCount = users.length;
+          const totalPages = Math.ceil(userCount / size)
+          return {users, totalPages}
       }
 
+      // find by filter
+      // eslint-disable-next-line @typescript-eslint/no-inferrable-types
+      async findAllusersFilter(page: any, filterBody: any) {
+          const filter = filterBody;
+          const pageNo = page.page;
+          const size =10;
+          const query = {
+            skip : size * (pageNo - 1),
+            limit : size
+          }
+      
+            const users = await this.userModel.find(filter,{},query);
+            const userCount = users.length;
+            const totalPages = Math.ceil(userCount / size)
+            return {users, totalPages}
+    }
     sanitizeUser(user: User) {
         const sanitized = user.toObject();
         delete sanitized["password"];

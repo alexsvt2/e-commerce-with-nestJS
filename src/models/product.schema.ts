@@ -5,7 +5,7 @@ export const productSchema = new mongoose.Schema({
     ar:{type: String, requierd: true},
     en:{type: String, requierd: true},
   },
-  serialNumber : {type:String , requierd:true},
+  serialNumber : {type:String},
   image: [{
     path:{type: String , requierd:true},
     order:{type:Number },

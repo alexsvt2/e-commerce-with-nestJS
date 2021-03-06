@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-inferrable-types */
 /* eslint-disable prettier/prettier */
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
@@ -10,12 +11,59 @@ export class ProductService {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor(@InjectModel('Product') private productModel: Model<product>) {}
 
-  async findAll(): Promise<product[]> {
-    return await this.productModel.find().populate('category');
+  async findAll(page: any ) {
+    const pageNo = page.page;
+    const size =10;
+    const query = {
+      skip : size * (pageNo - 1),
+      limit : size
+    }
+
+    const products = await this.productModel.find({},{},query)
+      .populate('category')
+      .sort({'createDate': -1});
+
+    const productsCount = products.length;
+    const totalPages = Math.ceil(productsCount / size)
+    return {products, totalPages}
   }
 
-  async findByCategory(id: any): Promise<product[]> {
-    return await this.productModel.find({ category: id }).populate('category');
+  // filter 
+  async filterFindAll(page: any , filterBody: CreateProductDTO) {
+    const filter = filterBody;
+    const pageNo = page.page;
+    const size =10;
+    const query = {
+      skip : size * (pageNo - 1),
+      limit : size
+    }
+
+
+    const products = await this.productModel.find( filter, {}, query)
+    .populate('category')
+    .sort({'createDate': -1});
+
+    const productsCount = products.length;
+    const totalPages = Math.ceil(productsCount / size)
+    return {products, totalPages}
+   
+  }
+  // by category
+  async findByCategory(id: any , page: any) {
+    const pageNo = page.page;
+    const size =10;
+    const query = {
+      skip : size * (pageNo - 1),
+      limit : size
+    }
+
+    const products =  await this.productModel.find({ category: id},{},query )
+    .populate('category')
+     .sort({'createDate': -1});
+
+     const productsCount = products.length;
+    const totalPages = Math.ceil(productsCount / size)
+    return {products, totalPages}
   }
 
   async findById(id: string): Promise<product> {

@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Get, Post, UseGuards,  } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, UseGuards,  } from '@nestjs/common';
 import { UserService } from 'src/shared/user.service';
 import { LoginDTO, RegisterDTO } from './auth.dto';
 import { AuthService } from './auth.service';
@@ -39,9 +39,16 @@ export class AuthController {
 
     @Get('getUsers')
     @UseGuards(AuthGuard('jwt') , AdminGuard)
-    async getUsers(){
-        const users = this.userService.findAllusers();
+    async getUsers(@Query() page:number , @Query() numberOfRecords:number){
+        const users = this.userService.findAllusers(page );
         return users;
     }
 
+    @Get('searchUsers')
+    @UseGuards(AuthGuard('jwt') , AdminGuard)
+    async getUsersByFilter(@Query() page:number , @Query() numberOfRecords:number, 
+    @Query() userFilter : RegisterDTO){
+        const users = this.userService.findAllusersFilter(page , userFilter);
+        return users;
+    }
 }

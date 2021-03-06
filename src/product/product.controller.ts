@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put,Query } from '@nestjs/common';
 import { product } from 'src/types/product';
 import { CreateProductDTO, UpdateProductDTO } from './product.dto';
 import { ProductService } from './product.service';
@@ -18,13 +18,22 @@ export class ProductController {
      }
 
      @Get('/allProducts')
-     async getAllProduct(): Promise<product[]>{
-         return await this.productService.findAll();
+     async getAllProduct(@Query() page:number ){
+         
+         return await this.productService.findAll(page);
      }
 
+     @Get('/searchProducts')
+     async getAllProductBySearch(@Query() page:number ,
+     @Query() product: CreateProductDTO ){
+         return await this.productService.filterFindAll(page,product);
+     }
+
+
      @Get('/getByCategory/:id')
-     async getProductByCategoryId(@Param('id') id: string): Promise<product[]>{
-         return this.productService.findByCategory(id);
+     async getProductByCategoryId(@Param('id') id: string,
+     @Query() page:number){
+         return this.productService.findByCategory(id,page);
      }
 
      @Get('/getById/:id')
