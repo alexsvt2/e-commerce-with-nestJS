@@ -19,7 +19,7 @@ export class CreateProductDTO {
     @ApiProperty()
     currency:string;
     @ApiProperty()
-    category:[Category];
+    category:[string];
     @ApiProperty()
     qty:number;
     @ApiProperty()

@@ -23,7 +23,7 @@ export interface product extends Document {
     description: string,
     price : number,
     category: 
-    [Category]
+    [string]
     ,
     currency:string,
     qty:number,
