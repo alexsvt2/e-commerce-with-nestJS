@@ -3,7 +3,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Document } from 'mongoose';
 import { Category } from './category';
 import { Name } from './shared.dto';
-
+import {Description} from './shared.dto'
 export class Image {
   @ApiProperty()
   path: string;
@@ -20,7 +20,7 @@ export interface product extends Document {
     productName:Name,
     serialNumber :string,
     image: [Image],
-    description: string,
+    description: Description,
     price : number,
     category: 
     [string]

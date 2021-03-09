@@ -11,7 +11,10 @@ export const productSchema = new mongoose.Schema({
     order:{type:Number },
     key:{type:String}
   }],
-  description: {type:String, requierd:true},
+  description: { 
+    ar:{type: String, requierd: true},
+    en:{type: String, requierd: true},
+  },
   price : {type:Number , requierd:true},
   category: 
     [{type: mongoose.Schema.Types.ObjectId,

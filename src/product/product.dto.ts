@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { ApiProperty } from '@nestjs/swagger';
 import { Name } from 'src/types/shared.dto';
-
+import { Description } from 'src/types/shared.dto';
 import { Category } from 'src/types/category';
 import { Image } from 'src/types/product';
 
@@ -13,7 +13,7 @@ export class CreateProductDTO {
     @ApiProperty()
     image: [Image];
     @ApiProperty()
-    description: string;
+    description: Description;
     @ApiProperty()
     price : number;
     @ApiProperty()

@@ -8,3 +8,10 @@ export class Name{
   en: string;
 }
 
+
+export class Description{
+  @ApiProperty()
+  ar:string;
+  @ApiProperty()
+en: string;
+}
