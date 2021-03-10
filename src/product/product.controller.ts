@@ -62,7 +62,7 @@ export class ProductController {
 
         @Delete('/deleteImg')
         @UseGuards(AuthGuard('jwt') , AdminGuard)
-        async deleteImage(@Query() params: any ) {
-          return this.productService.deleteImage(params);
+        async deleteImage(@Query() params: any , @Param('key') key:string ) {
+          return this.productService.deleteImage(params,key);
         }
 }

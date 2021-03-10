@@ -103,8 +103,8 @@ export class ProductService {
   }
   
  
-  async deleteImage( params: any ) {
-    const {key , id , type} = params;
+  async deleteImage( params: any , key:string ) {
+    const {  id , type} = params;
     const product = await this.productModel.findById(id);
     this.uploadfileService.deletePublicFile(key)
     if(type == 'image') {
