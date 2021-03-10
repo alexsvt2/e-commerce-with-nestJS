@@ -26,7 +26,7 @@ export class FilesService {
        
         const s3 = new S3();
         await s3.deleteObject({
-          Bucket: process.env.AWS_PUBLIC_BUCKET_NAME,
+          Bucket: this.configService.get('AWS_PUBLIC_BUCKET_NAME'),
           Key: key,
         }).promise();
         return "deleted";
