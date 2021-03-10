@@ -14,12 +14,14 @@ export class ProductController {
 
 
     @Post('/create')
+    @UseGuards(AuthGuard('jwt') , AdminGuard)
      // eslint-disable-next-line @typescript-eslint/no-unused-vars
      async createProduct(@Body() product: CreateProductDTO): Promise<product>{
         return await this.productService.create(product);
      }
 
      @Get('/allProducts')
+     @UseGuards(AuthGuard('jwt') , AdminGuard)
      async getAllProduct(@Query() query:any){
          const {perPage , page, ...restQuery} = query
          return await this.productService.findAll(page,perPage , restQuery);
@@ -28,6 +30,7 @@ export class ProductController {
  
 
      @Get('/getByCategory/:id')
+     @UseGuards(AuthGuard('jwt') , AdminGuard)
      async getProductByCategoryId(@Param('id') id: string,
      @Query() query:any){
         const {perPage , page} = query
@@ -36,16 +39,19 @@ export class ProductController {
      }
 
      @Get('/getById/:id')
+     @UseGuards(AuthGuard('jwt') , AdminGuard)
      async getProductById(@Param('id') id: string): Promise<product>{
          return this.productService.findById(id);
      }
 
      @Delete('/delete/:id')
+     @UseGuards(AuthGuard('jwt') , AdminGuard)
      deleteProduct(@Param('id') id: string): Promise<product>{
          return this.productService.delete(id);
      }
 
      @Put('/update/:id')
+     @UseGuards(AuthGuard('jwt') , AdminGuard)
     async updateProduct(
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         @Param('id') id: string,
