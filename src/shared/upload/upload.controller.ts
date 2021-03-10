@@ -29,7 +29,7 @@ export class UploadController {
 
     @Delete('/deleteImg/:key')
     @UseGuards(AuthGuard('jwt') , AdminGuard)
-    async deleteImage(@Param() key: string ) {
+    async deleteImage(@Param('key') key: string ) {
       return this.uploadfileService.deletePublicFile(key);
     }
 }
