@@ -19,11 +19,11 @@ export class Image {
 export interface product extends Document {
     productName:Name,
     serialNumber :string,
-    image: [Image],
+    image: Image[],
     description: Description,
     price : number,
     category: 
-    [string]
+    string[]
     ,
     currency:string,
     qty:number,

@@ -3,13 +3,15 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { FilesService } from 'src/shared/uploadFile.service';
 import { product } from 'src/types/product';
 import { CreateProductDTO, UpdateProductDTO } from './product.dto';
 
 @Injectable()
 export class ProductService {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  constructor(@InjectModel('Product') private productModel: Model<product>) { }
+  constructor(@InjectModel('Product') private productModel: Model<product>,
+  private uploadfileService: FilesService) { }
 
   async findAll(page: number = 1, perPage: number = 10, query: any) {
     const pageNo = Number(page);
@@ -98,5 +100,27 @@ export class ProductService {
 
     await product.remove();
     return product.populate('owner');
+  }
+  
+ 
+  async deleteImage( params: any ) {
+    const {key , id , type} = params;
+    const product = await this.productModel.findById(id);
+    this.uploadfileService.deletePublicFile(key)
+    if(type == 'image') {
+      const images = product.image;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+       product.image = images.filter( el =>el.key !== key );   
+      product.save();
+    }
+    else if(type == 'thumbnail') {
+      product.thumbnail = null;
+      product.save();
+    }
+    else{
+      product.video = null
+      product.save();
+    }
+    return "Deleted";
   }
 }

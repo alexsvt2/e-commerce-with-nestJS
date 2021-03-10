@@ -11,7 +11,7 @@ export class CreateProductDTO {
     @ApiProperty()
     serialNumber :string;
     @ApiProperty()
-    image: [Image];
+    image: Image[];
     @ApiProperty()
     description: Description;
     @ApiProperty()
@@ -19,7 +19,7 @@ export class CreateProductDTO {
     @ApiProperty()
     currency:string;
     @ApiProperty()
-    category:[string];
+    category:string[];
     @ApiProperty()
     qty:number;
     @ApiProperty()

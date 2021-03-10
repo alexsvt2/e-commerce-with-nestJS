@@ -24,7 +24,7 @@ export class RegisterDTO {
     @ApiProperty()
     phoneNumber: number;
     @ApiProperty()
-    address?: [Address];
+    address?: Address[];
 }
 
 

@@ -23,5 +23,5 @@ export interface User extends Document {
     isAdmin:boolean,
     phoneNumber: string,
     password: string;
-    address: [Address];
+    address: Address[];
 }

@@ -1,9 +1,11 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Delete, Get, Param, Post, Put,Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put,Query, UseGuards } from '@nestjs/common';
 import { product } from 'src/types/product';
 import { CreateProductDTO, UpdateProductDTO } from './product.dto';
 import { ProductService } from './product.service';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
+import { AdminGuard } from 'src/guards/admin.guards';
 
 @ApiTags('Products')
 @Controller('product')
@@ -50,5 +52,11 @@ export class ProductController {
         @Body() product: UpdateProductDTO): Promise<product>{
             return await this.productService.update(id, product);
 
+        }
+
+        @Delete('/deleteImg')
+        @UseGuards(AuthGuard('jwt') , AdminGuard)
+        async deleteImage(@Query() params: any ) {
+          return this.productService.deleteImage(params);
         }
 }
