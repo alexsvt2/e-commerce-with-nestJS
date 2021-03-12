@@ -20,10 +20,26 @@ export class ProductService {
       skip: size * (pageNo - 1),
       limit: size
     }
-    
-    const products = await this.productModel.find(query, {}, queryPage)
+    let products;
+
+
+    if(query == null){
+      console.log("product name")
+      const productNameFilter =  '^' + 'Some'+ '$' ; 
+        // eslint-disable-next-line prefer-const
+     products = await this.productModel.find({'productName.en': 
+       { $regex : productNameFilter as never , $options: 'i' as never}  }, {}, query)
+     .populate('category')
+     .sort({ 'createDate': -1 });
+     console.log(products )
+
+    }
+    else{
+      products = await this.productModel.find(query, {}, queryPage)
       .populate('category')
       .sort({ 'createDate': -1 });
+    }
+    
 
     const productsCount = await this.productModel.count(query);
     const totalPages = Math.ceil(productsCount / size)
@@ -33,6 +49,7 @@ export class ProductService {
   // filter 
   async filterFindAll(page: any, filterBody: CreateProductDTO) {
     const filter = filterBody;
+  
     const pageNo = page.page;
     const size = 10;
     const query = {
@@ -40,8 +57,17 @@ export class ProductService {
       limit: size
     }
 
+    if(filterBody.productName){
+      const productNameFilter =  '.*' + filter.productName + '.*' ; 
+        // eslint-disable-next-line prefer-const
+    const products = await this.productModel.find({productName: 
+       { $regex : productNameFilter as never}  }, {}, query)
+     .populate('category')
+     .sort({ 'createDate': -1 });
+    }
 
-    const products = await this.productModel.find(filter, {}, query)
+     // eslint-disable-next-line prefer-const
+     const products = await this.productModel.find(filter, {}, query)
       .populate('category')
       .sort({ 'createDate': -1 });
 
@@ -105,22 +131,27 @@ export class ProductService {
  
   async deleteImage( params: any , key:string ) {
     const {  id , type} = params;
-    const product = await this.productModel.findById(id);
+
     this.uploadfileService.deletePublicFile(key)
-    if(type == 'image') {
-      const images = product.image;
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-       product.image = images.filter( el =>el.key !== key );   
-      product.save();
+
+    if(id){
+      const product = await this.productModel.findById(id);
+      if(type == 'image') {
+        const images = product.image;
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+         product.image = images.filter( el =>el.key !== key );   
+        product.save();
+      }
+      else if(type == 'thumbnail') {
+        product.thumbnail = null;
+        product.save();
+      }
+      else{
+        product.video = null
+        product.save();
+      }
     }
-    else if(type == 'thumbnail') {
-      product.thumbnail = null;
-      product.save();
-    }
-    else{
-      product.video = null
-      product.save();
-    }
+   
     return "Deleted";
   }
 }

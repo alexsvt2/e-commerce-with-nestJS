@@ -21,7 +21,7 @@ export class ProductController {
      }
 
      @Get('/allProducts')
-     @UseGuards(AuthGuard('jwt') , AdminGuard)
+     //@UseGuards(AuthGuard('jwt') , AdminGuard)
      async getAllProduct(@Query() query:any){
          const {perPage , page, ...restQuery} = query
          return await this.productService.findAll(page,perPage , restQuery);
