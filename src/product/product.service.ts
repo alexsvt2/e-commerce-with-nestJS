@@ -23,12 +23,12 @@ export class ProductService {
     let products;
 
 
-    if(query == null){
+    if(query){
       console.log("product name")
       const productNameFilter =  '^' + 'Some'+ '$' ; 
         // eslint-disable-next-line prefer-const
      products = await this.productModel.find({'productName.en': 
-       { $regex : productNameFilter as never , $options: 'i' as never}  }, {}, query)
+       { $regex : productNameFilter  }  }, {}, query)
      .populate('category')
      .sort({ 'createDate': -1 });
      console.log(products )
