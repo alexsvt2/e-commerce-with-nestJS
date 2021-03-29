@@ -14,11 +14,13 @@ export class UserService {
     // create new user
     async create(userDTO: RegisterDTO) {
         const { email } = userDTO;
+        email.toLowerCase();
         const user = await this.userModel.findOne({ email });
         if (user) {
             throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
         }
 
+        userDTO.email.toLowerCase();
         const createdUser = new this.userModel(userDTO);
         await createdUser.save();
         return this.sanitizeUser(createdUser);
@@ -28,6 +30,7 @@ export class UserService {
 
     async findByLogin(userDTO: LoginDTO) {
         const { email, password, phoneNumber } = userDTO;
+        email.toLowerCase()
         const user = await this.userModel
             .findOne({ $or: [{ email }, { phoneNumber }] })
             .select('fullName password email createDate address phoneNumber isAdmin');  
