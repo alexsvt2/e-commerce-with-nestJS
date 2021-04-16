@@ -7,8 +7,10 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { ApiTags } from '@nestjs/swagger';
 import { WishlistService } from './wishlist.service';
 
+@ApiTags('Wishlist')
 @Controller('wishlist')
 export class WishlistController {
   constructor(private wishlistService: WishlistService) {}

@@ -15,7 +15,9 @@ import { AuthGuard } from '@nestjs/passport';
 import { AdminGuard } from 'src/guards/admin.guards';
 import { UpdateInvoiceDTO } from './invoice.dto';
 import { Invoice } from 'src/types/invoice';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Invoice')
 @Controller('invoice')
 export class InvoiceController {
   constructor(private invoiceService: InvoiceService) {}

@@ -1,7 +1,9 @@
 import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { ShipmentMethodService } from './shipment-method.service';
 import { ShipmentDto } from './shipment.dto';
 
+@ApiTags('Shipping')
 @Controller('shipment-method')
 export class ShipmentMethodController {
   constructor(private shpService: ShipmentMethodService) {}

@@ -7,10 +7,12 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { fashionModel } from 'src/types/fashionModel';
 import { FashionModelService } from './fashion-model.service';
 import { fashionModelDto } from './fashionModel.dto';
 
+@ApiTags('Fasion-Model')
 @Controller('fashion-model')
 export class FashionModelController {
   constructor(private fashionModelService: FashionModelService) {}

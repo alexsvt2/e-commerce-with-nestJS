@@ -1,7 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { SliderService } from './slider.service';
 import { SliderImage } from '../types/slider';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Slider')
 @Controller('slider')
 export class SliderController {
   constructor(private sliderService: SliderService) {}
