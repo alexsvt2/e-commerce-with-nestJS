@@ -9,26 +9,26 @@ import { Address } from '../types/user';
 //     pgoneNumber: string;
 // }
 
-
 // export type LoginDTO = { password: string } & (WithEmail | WithMobile)
 
 export class RegisterDTO {
-    @ApiProperty()
-    fullName: string;
-    @ApiProperty()
-    password: string;
-    @ApiProperty()
-    isAdmin:boolean;
-    @ApiProperty()
-    email: string;
-    @ApiProperty()
-    phoneNumber: number;
-    @ApiProperty()
-    address?: Address[];
+  @ApiProperty()
+  fullName: string;
+  @ApiProperty()
+  password: string;
+  @ApiProperty()
+  isAdmin: boolean;
+  @ApiProperty()
+  email: string;
+  @ApiProperty()
+  phoneNumber: number;
+  @ApiProperty()
+  address?: Address[];
+  @ApiProperty()
+  isGuest: boolean;
 }
 
-
 // other way
-type WithMobile = { password: string, email: string, phoneNumber: never }
-type WithEmail = { password: string, email: string, phoneNumber: never }
-export type LoginDTO = (WithEmail | WithMobile)
+type WithMobile = { password: string; email: string; phoneNumber: never };
+type WithEmail = { password: string; email: string; phoneNumber: never };
+export type LoginDTO = WithEmail | WithMobile;

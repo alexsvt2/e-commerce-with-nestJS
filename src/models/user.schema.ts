@@ -3,42 +3,44 @@ import * as bcrypt from 'bcrypt';
 import * as mongoose from 'mongoose';
 
 export const UserSchema = new mongoose.Schema({
-    fullName: {
-        type: String,
-        required: true,
-        minlength:3,
-        maxlength: 15,
-    },
-    isAdmin:{
-      type:Boolean,
-      default:false
-    },
-    email: {
-        type: String,
-        required: true,
-        maxlength: 60,
-        lowercase: true,
-        unique:true
-    },
+  fullName: {
+    type: String,
+    required: true,
+    minlength: 3,
+    maxlength: 15,
+  },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
+  email: {
+    type: String,
+    maxlength: 60,
+    lowercase: true,
+    unique: true,
+  },
   password: {
     type: String,
     select: false,
   },
   phoneNumber: {
     type: Number,
-    requierd:true
+    requierd: true,
   },
-  address: [{
-    addr1: String,
-    neighborhood: String,
-    city: String,
-    description:String,
-    country: String
-  }],
+  address: [
+    {
+      addr1: String,
+      neighborhood: String,
+      city: String,
+      description: String,
+      country: String,
+    },
+  ],
+  isGuest: { type: Boolean, default: true },
   createDate: { type: Date, default: Date.now },
 });
 
-UserSchema.pre('save', async function(next: mongoose.HookNextFunction) {
+UserSchema.pre('save', async function (next: mongoose.HookNextFunction) {
   try {
     if (!this.isModified('password')) {
       return next();
@@ -52,8 +54,8 @@ UserSchema.pre('save', async function(next: mongoose.HookNextFunction) {
 });
 
 UserSchema.methods.gg = function () {
-    return true;
-}
+  return true;
+};
 
 // genrate token
 // UserSchema.methods.generateAuthToken = function () {
@@ -63,4 +65,4 @@ UserSchema.methods.gg = function () {
 // }
 
 // create index
-UserSchema.index({  email:1 });
+UserSchema.index({ email: 1 });

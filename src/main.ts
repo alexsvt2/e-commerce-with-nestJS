@@ -17,15 +17,15 @@ async function bootstrap() {
   });
 
   const swaConfig = new DocumentBuilder()
-  .setTitle('e-commerce api documention')
-  .setDescription('The e-commerce API description')
-  .setVersion('1.0')
-  .build();
-const document = SwaggerModule.createDocument(app, swaConfig);
-SwaggerModule.setup('api', app, document);
+    .setTitle('e-commerce api documention')
+    .setDescription('The e-commerce API description')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, swaConfig);
+  SwaggerModule.setup('api', app, document);
 
-app.enableCors();
+  app.enableCors();
 
-await app.listen(process.env.PORT || '80');
+  await app.listen('80' || '80');
 }
 bootstrap();

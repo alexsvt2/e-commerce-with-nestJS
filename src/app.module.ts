@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -7,7 +8,18 @@ import { AuthModule } from './auth/auth.module';
 import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
 import { ConfigModule } from '@nestjs/config';
+import { VariantModule } from './variant/variant.module';
+import { CartModule } from './cart/cart.module';
 import * as Joi from '@hapi/joi';
+import { BrandModule } from './brand/brand.module';
+import { InvoiceModule } from './invoice/invoice.module';
+import { OrderModule } from './order/order.module';
+import { CouponModule } from './coupon/coupon.module';
+import { WishlistModule } from './wishlist/wishlist.module';
+import { SliderModule } from './slider/slider.module';
+import { FashionModelModule } from './fashion-model/fashion-model.module';
+import { ShipmentMethodModule } from './shipment-method/shipment-method.module';
+import { SettingsModule } from './settings/settings.module';
 
 @Module({
   imports: [
@@ -28,8 +40,19 @@ import * as Joi from '@hapi/joi';
     AuthModule,
     ProductModule,
     CategoryModule,
+    BrandModule,
+    VariantModule,
+    CartModule,
+    InvoiceModule,
+    OrderModule,
+    CouponModule,
+    WishlistModule,
+    SliderModule,
+    FashionModelModule,
+    ShipmentMethodModule,
+    SettingsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
