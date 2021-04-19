@@ -27,6 +27,10 @@ export class UserService {
     return this.sanitizeUser(createdUser);
   }
 
+  async getUserProfile(id: string) {
+    return await this.userModel.findById(id);
+  }
+
   async addNewAddress(address: Address, userId: string) {
     const user = await this.userModel.findById(userId);
     user.address.push(address);

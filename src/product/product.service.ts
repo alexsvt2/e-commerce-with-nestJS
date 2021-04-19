@@ -27,16 +27,17 @@ export class ProductService {
     let products;
 
     if (query) {
-      const productNameFilter = 'Test';
+      // const productNameFilter = 'Test';
       // eslint-disable-next-line prefer-const
       products = await this.productModel
         .find(
-          {
-            'productName.en': {
-              $regex: productNameFilter,
-              $options: 'i' as never,
-            },
-          },
+          {},
+          // {
+          //   'productName.en': {
+          //     $regex: productNameFilter,
+          //     $options: 'i' as never,
+          //   },
+          // },
           {},
           query,
         )

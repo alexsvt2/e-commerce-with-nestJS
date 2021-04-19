@@ -51,8 +51,14 @@ export class AuthController {
 
   @Put('/addNewAddress')
   @UseGuards(AuthGuard('jwt'), AdminGuard)
-  async addNewAddress(address: Address, @Request() req) {
+  async addNewAddress(@Body() address: Address, @Request() req) {
     return await this.userService.addNewAddress(address, req.user._id);
+  }
+
+  @Get('/getUserProfile')
+  @UseGuards(AuthGuard('jwt'), AdminGuard)
+  async getUserProfile(@Request() req) {
+    return await this.userService.getUserProfile(req.user._id);
   }
 
   @Get('getUsers')

@@ -7,7 +7,7 @@ export const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
     minlength: 3,
-    maxlength: 15,
+    maxlength: 40,
   },
   isAdmin: {
     type: Boolean,
@@ -52,10 +52,6 @@ UserSchema.pre('save', async function (next: mongoose.HookNextFunction) {
     return next(err);
   }
 });
-
-UserSchema.methods.gg = function () {
-  return true;
-};
 
 // genrate token
 // UserSchema.methods.generateAuthToken = function () {
