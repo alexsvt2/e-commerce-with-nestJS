@@ -7,4 +7,6 @@ export class VariantDTO {
   variantName: Name;
   @ApiProperty()
   variantValues: string[];
+  @ApiProperty()
+  type: string;
 }

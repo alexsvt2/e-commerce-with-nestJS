@@ -6,4 +6,5 @@ import { Name } from './shared.dto';
 export interface Variant extends Document {
   variantName: Name;
   variantValues: string[];
+  type: string;
 }
