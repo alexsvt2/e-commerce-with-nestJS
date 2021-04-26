@@ -195,15 +195,20 @@ export class ProductService {
   async amountCalculate(products: string[]) {
     let getVat = this.settingsService.getAll();
     let total = 0;
-    let tax = getVat[0].vat;
+    let tax = getVat[0].vat || 0.15;
     let totalWithTax = 0;
 
     for (let i = 0; i < products.length; i++) {
       let product = await this.productModel.findById(products[i]);
-      total += product.price;
-      totalWithTax += product.price * tax;
+      if (product.discount !== 0) {
+        let totalWithDiscount = product.price * product.discount;
+        total += product.price - totalWithDiscount;
+      } else {
+        total += product.price;
+      }
     }
-
+    const calculatedTax = total * tax;
+    totalWithTax = total + calculatedTax;
     return { total, totalWithTax };
   }
 }
