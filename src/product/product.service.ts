@@ -78,7 +78,7 @@ export class ProductService {
           query,
         )
         .populate('category brand fashionModel')
-        .populate('variants.variants.variantId', 'variantName -_id')
+        .populate('variants.variants.variantId')
         .sort({ createDate: -1 });
     }
 
@@ -86,7 +86,7 @@ export class ProductService {
     const products = await this.productModel
       .find(filter, {}, query)
       .populate('category brand fashionModel')
-      .populate('variants.variants.variantId', 'variantName -_id')
+      .populate('variants.variants.variantId')
       .sort({ createDate: -1 });
 
     const productsCount = products.length;
@@ -105,7 +105,7 @@ export class ProductService {
     const products = await this.productModel
       .find({ category: id }, {}, query)
       .populate('category fashionModel brand')
-      .populate('variants.variants.variantId', 'variantName -_id')
+      .populate('variants.variants.variantId')
       .sort({ createDate: -1 });
 
     const productsCount = await this.productModel.count({ category: id });
@@ -127,7 +127,7 @@ export class ProductService {
     const products = await this.productModel
       .find({ brand: id }, {}, query)
       .populate('category fashionModel brand')
-      .populate('variants.variants.variantId', 'variantName -_id')
+      .populate('variants.variants.variantId')
       .sort({ createDate: -1 });
 
     const productsCount = await this.productModel.count({ brand: id });
@@ -139,7 +139,7 @@ export class ProductService {
     const product = await this.productModel
       .findById(id)
       .populate('category brand fashionModel')
-      .populate('variants.variants.variantId', 'variantName -_id');
+      .populate('variants.variants.variantId');
     if (!product) {
       throw new HttpException('Product not found', HttpStatus.NO_CONTENT);
     }
