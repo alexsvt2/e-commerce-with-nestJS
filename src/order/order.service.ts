@@ -79,7 +79,7 @@ export class OrderService {
     }
   }
 
-  async getOrders(page: number = 1, perPage: number = 10, query: any) {
+  async getOrders(page = 1, perPage = 10, query: any) {
     const pageNo = Number(page);
     const size = Number(perPage);
     const queryPage = {
@@ -95,6 +95,13 @@ export class OrderService {
     const totalPages = Math.ceil(ordersCount / size);
     return { orders, totalPages };
   }
+
+  async getById(id: any): Promise<Order> {
+    return await this.orderModel
+      .findById(id)
+      .populate('user invoice products.productId');
+  }
+
   async updateOrderStatus(status: string, id: string) {
     const order = await this.orderModel.updateOne(
       { _id: id },

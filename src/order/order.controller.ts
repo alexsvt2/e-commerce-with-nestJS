@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Query, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+  Request,
+} from '@nestjs/common';
 import { OrderService } from './order.service';
 import { OrderDto } from './order.dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -14,6 +23,11 @@ export class OrderController {
     const { perPage, page, ...restQuery } = query;
     return await this.orderService.getOrders(page, perPage, restQuery);
   }
+  @Get(':id')
+  //@UseGuards(AuthGuard('jwt') , AdminGuard)
+  async getOrder(@Param('id') id: string) {
+    return await this.getOrder(id);
+  }
 
   @Post()
   async createOrder(
@@ -28,5 +42,9 @@ export class OrderController {
       amount,
       amountWithTax,
     );
+  }
+  @Put('/:id')
+  async updateOrder(@Body('status') status: string, @Param('id') id: string) {
+    return await this.orderService.updateOrderStatus(status, id);
   }
 }
