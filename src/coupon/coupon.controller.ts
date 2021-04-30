@@ -14,12 +14,12 @@ export class CouponController {
   }
 
   @Get('/getCoupon/:name')
-  async getByName(@Param() name: string) {
+  async getByName(@Param('name') name: string) {
     return await this.couponService.getByName(name);
   }
 
   @Get('/getById/:id')
-  async getById(@Param() id: string) {
+  async getById(@Param('id') id: string) {
     return await this.couponService.getById(id);
   }
 

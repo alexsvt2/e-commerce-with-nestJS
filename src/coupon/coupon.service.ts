@@ -23,7 +23,7 @@ export class CouponService {
   }
 
   async getByName(name: string) {
-    const coupon = await this.couponModel.find({
+    const coupon = await this.couponModel.findOne({
       couponName: name,
       status: true,
     });
