@@ -42,13 +42,13 @@ export class ProductService {
           query,
         )
         .populate('category brand fashionModel')
-        .populate('variants.variants.variantId', 'variantName -_id')
+        .populate('variants.variants.variantId')
         .sort({ createDate: -1 });
     } else {
       products = await this.productModel
         .find(query, {}, queryPage)
         .populate('category brand fashionModel')
-        .populate('variants.variants.variantId', 'variantName -_id')
+        .populate('variants.variants.variantId')
         .sort({ createDate: -1 });
     }
 
