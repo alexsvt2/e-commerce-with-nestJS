@@ -22,6 +22,13 @@ export class CouponService {
     return await this.couponModel.findById(id);
   }
 
+  async deleteCoupon(id: string) {
+    const coupon = await this.couponModel.findById(id);
+
+    await coupon.remove();
+    return coupon;
+  }
+
   async getByName(name: string) {
     const coupon = await this.couponModel.findOne({
       couponName: name,

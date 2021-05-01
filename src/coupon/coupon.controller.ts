@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CouponDto } from './coupon.dto';
 import { CouponService } from './coupon.service';
@@ -31,5 +39,10 @@ export class CouponController {
   @Put('/updateCouponStatus')
   async update(@Body() status: boolean, @Body() id: string) {
     return await this.couponService.updateStatus(id, status);
+  }
+
+  @Delete('/delete/:id')
+  async delete(@Param('id') id: string) {
+    return await this.couponService.deleteCoupon(id);
   }
 }
