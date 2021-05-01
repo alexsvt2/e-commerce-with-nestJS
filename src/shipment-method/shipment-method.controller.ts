@@ -35,7 +35,7 @@ export class ShipmentMethodController {
     return this.shpService.update(shpDto, id);
   }
 
-  @Delete('/:id')
+  @Delete('/delete/:id')
   async delete(@Param('id') id: string) {
     return this.shpService.delete(id);
   }
