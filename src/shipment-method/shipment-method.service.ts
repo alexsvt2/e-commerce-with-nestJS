@@ -16,6 +16,9 @@ export class ShipmentMethodService {
     return shp;
   }
 
+  async get(id: string) {
+    return await this.userModel.findById(id);
+  }
   async getAll() {
     return await this.userModel.find();
   }
