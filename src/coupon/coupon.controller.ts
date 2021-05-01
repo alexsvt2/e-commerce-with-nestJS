@@ -37,7 +37,7 @@ export class CouponController {
   }
 
   @Put('/updateCouponStatus')
-  async update(@Body() status: boolean, @Body() id: string) {
+  async update(@Body('status') status: boolean, @Body('id') id: string) {
     return await this.couponService.updateStatus(id, status);
   }
 
