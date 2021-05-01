@@ -30,7 +30,7 @@ export class ShipmentMethodController {
     return await this.shpService.get(id);
   }
 
-  @Put('/:id')
+  @Put('/update/:id')
   async update(@Body() shpDto: ShipmentDto, @Param('id') id: string) {
     return this.shpService.update(shpDto, id);
   }
