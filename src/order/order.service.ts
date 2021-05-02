@@ -55,23 +55,20 @@ export class OrderService {
   async calculateNewQtyOfProducts(products: cartProduct[]) {
     for (let i = 0; i < products.length; i++) {
       // get the qty of each product
-      let productQty = await this.productModel.findOne({
-        _id: products[i].productId,
-      });
-      let variantQty = await this.productModel.findOne({
-        _id: products[i].productId,
-        'variants._id': products[i].variantIdOfProduct,
-      });
+      let productQty = await this.productModel.findById(products[i].productId);
+      let q1 = productQty.variants;
+
+      let varQty = q1.find(x => x._id == products[i].variant._id)
+
       let product = await this.productModel.updateOne(
         {
           _id: products[i].productId,
-          'variants._id': products[i].variantIdOfProduct,
+          'variants._id': products[i].variant._id,
         },
         {
           $set: {
             qty: productQty.qty - products[i].qtyOfProduct,
-            'variants.$.qty':
-              variantQty.variants[0][0].qty - products[i].qtyOfProduct,
+            'variants.$.qty':varQty.qty - products[i].qtyOfProduct
           },
         },
       );
@@ -89,9 +86,27 @@ export class OrderService {
 
     const orders = await this.orderModel
       .find(query, {}, queryPage)
-      .populate('user invoice products.productId')
+      .populate(' invoice products.productId')
+      .populate('user', '-isAdmin')
       .sort({ createDate: -1 });
     const ordersCount = await this.orderModel.count(query);
+    const totalPages = Math.ceil(ordersCount / size);
+    return { orders, totalPages };
+  }
+
+  async getOrdersByUserId(page = 1, perPage = 10, userId: string) {
+    const pageNo = Number(page);
+    const size = Number(perPage);
+    const queryPage = {
+      skip: size * (pageNo - 1),
+      limit: size,
+    };
+
+    const orders = await this.orderModel
+      .find({'user':userId})
+      .populate('user invoice products.productId')
+      .sort({ createDate: -1 });
+    const ordersCount = await this.orderModel.count({'user':userId});
     const totalPages = Math.ceil(ordersCount / size);
     return { orders, totalPages };
   }

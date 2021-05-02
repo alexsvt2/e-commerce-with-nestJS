@@ -23,15 +23,15 @@ export class InvoiceController {
   constructor(private invoiceService: InvoiceService) {}
 
   @Get()
-  //@UseGuards(AuthGuard('jwt') , AdminGuard)
-  async getAllOrders(@Query() query: any) {
+  @UseGuards(AuthGuard('jwt') , AdminGuard)
+  async getAllInvoices(@Query() query: any) {
     const { perPage, page, ...restQuery } = query;
     return await this.invoiceService.getAll(page, perPage, restQuery);
   }
 
   @Put('/update/:id')
   @UseGuards(AuthGuard('jwt'), AdminGuard)
-  async updateProduct(
+  async updateInvoice(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @Param('id') id: string,
     @Body() invoice: UpdateInvoiceDTO,
@@ -41,7 +41,7 @@ export class InvoiceController {
 
   @Delete('/delete/:id')
   @UseGuards(AuthGuard('jwt'), AdminGuard)
-  deleteProduct(@Param('id') id: string): Promise<Invoice> {
+  deleteInvoice(@Param('id') id: string): Promise<Invoice> {
     return this.invoiceService.delete(id);
   }
 }

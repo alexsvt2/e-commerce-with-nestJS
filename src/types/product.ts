@@ -17,6 +17,7 @@ export class Image {
 }
 
 export class variant {
+  _id:string;
   @ApiProperty()
   variantId: string;
   @ApiProperty()
@@ -34,7 +35,7 @@ export interface product extends Document {
   category: string[];
   brand: string;
   fashionModel: string;
-  variants: variant[][];
+  variants: variant[];
   currency: string;
   qty: number;
   threshold: number;

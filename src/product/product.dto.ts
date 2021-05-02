@@ -21,7 +21,7 @@ export class CreateProductDTO {
   @ApiProperty()
   category: string[];
   @ApiProperty()
-  variants: variant[][];
+  variants: variant[];
   @ApiProperty()
   brand: string;
   @ApiProperty()

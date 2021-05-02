@@ -13,6 +13,7 @@ export class cartProduct {
 export class cartVariant {
   _id: string;
   variants: variant[];
+  
 }
 
 export class cartVariantDetails {
