@@ -43,7 +43,7 @@ export class UserService {
     const { email, password, phoneNumber } = userDTO;
     email.toLowerCase();
     const user = await this.userModel
-      .findOne({ $or: [{ email }, { phoneNumber }] })
+      .findOne({'email':email})
       .select('fullName password email createDate address phoneNumber isAdmin');
 
     if (!user) {
@@ -51,6 +51,7 @@ export class UserService {
     }
 
     if (await bcrypt.compare(password, user.password)) {
+
       return this.sanitizeUser(user);
     } else {
       throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
