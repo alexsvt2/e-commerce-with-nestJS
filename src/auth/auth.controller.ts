@@ -71,41 +71,5 @@ export class AuthController {
     return users;
   }
 
-  // payment
-  @Post('/tokenPayment')
-  async tokenPaymnet() {
-    // const requestBody = {
-    //   card: {
-    //     number: 5123450000000008,
-    //     exp_month: 12,
-    //     exp_year: 21,
-    //     cvc: 124,
-    //     name: 'test user',
-    //     address: {
-    //       country: 'Kuwait',
-    //       line1: 'Salmiya, 21',
-    //       city: 'Kuwait city',
-    //       street: 'Salim',
-    //       avenue: 'Gulf',
-    //     },
-    //   },
-    //   client_ip: '192.168.1.20',
-    // };
 
-    // const options = {
-    //   method: 'POST',
-    //   url: 'https://api.tap.company/v2/tokens',
-    //   headers: { authorization: 'Bearer sk_test_ZpizH89du6SB3X2tkaoDrMyv' },
-    //   body: requestBody,
-    // };
-
-    // request.Request(options, async function (error, response, body) {
-    //   if (error) throw new Error(error);
-    //   body = JSON.parse(body);
-    //   console.log(body);
-    //   return body;
-    // });
-
-    return await this.authService.tokenPaymnet();
-  }
 }

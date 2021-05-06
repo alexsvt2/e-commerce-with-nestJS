@@ -1,5 +1,5 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { InjectModel,HttpService } from '@nestjs/mongoose';
+import { HttpException, HttpStatus,HttpService, Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Order } from 'src/types/order';
 import { OrderDto } from './order.dto';
