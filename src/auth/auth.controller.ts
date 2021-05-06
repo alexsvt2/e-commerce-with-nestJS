@@ -51,7 +51,7 @@ export class AuthController {
   }
 
   @Put('/addNewAddress')
-  @UseGuards(AuthGuard('jwt'), AdminGuard)
+  @UseGuards(AuthGuard('jwt'))
   async addNewAddress(@Body() address: Address, @Request() req) {
     return await this.userService.addNewAddress(address, req.user._id);
   }
