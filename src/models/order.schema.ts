@@ -30,7 +30,7 @@ export const orderSchema = new mongoose.Schema({
   ],
 
   paymentMethod: { type: String, default: 'Credit-Card' },
-  status: { type: String, default: ' pending' },
+  status: { type: String, default: ' un-paid' },
   createDate: {
     type: Date,
     default: Date.now,

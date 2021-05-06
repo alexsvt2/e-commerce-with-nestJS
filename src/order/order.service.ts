@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { InjectModel,HttpService } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Order } from 'src/types/order';
 import { OrderDto } from './order.dto';
@@ -13,6 +13,7 @@ export class OrderService {
   constructor(
     @InjectModel('Orders') private orderModel: Model<Order>,
     @InjectModel('Product') private productModel: Model<product>,
+    private httpService: HttpService,
     private invoiceService: InvoiceService,
   ) {}
 
@@ -126,5 +127,31 @@ export class OrderService {
     );
 
     return order;
+  }
+
+  
+  async verfyChargePayment(chargeId:string , orderId: string) {
+
+    const headers = {
+      authorization: 'Bearer sk_test_XKokBfNWv6FIYuTMg5sLPjhJ',
+      'content-type': 'application/json',
+    };
+
+    const dd = await this.httpService
+      .get(
+        "https://api.tap.company/v2/charges/"+chargeId ,
+    
+        {
+          headers: headers,
+        },
+      )
+      .subscribe(async (result) => {
+        if (result.data.status == "CAPTURED") {
+          this.updateOrderStatus('paid',orderId)
+        }else {
+           throw new HttpException('Invalid cahrge Id', HttpStatus.UNAUTHORIZED);
+
+        }
+      });
   }
 }
