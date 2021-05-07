@@ -10,6 +10,6 @@ export interface Order extends Document {
   paymentMethod: string;
   status: string;
   shippingMethod: string;
-  updateStatusDate:date;
+  updateStatusDate:Date;
   products: cartProduct[];
 }
