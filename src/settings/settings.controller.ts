@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put } from '@nestjs/common';
 import { SettingsService } from './settings.service';
 import { SettingsDto } from './settings.dto';
 import { ApiTags } from '@nestjs/swagger';
@@ -9,7 +9,8 @@ export class SettingsController {
   constructor(private settingService: SettingsService) {}
 
   @Post()
-  async create(settingDto: SettingsDto) {
+  async create(@Body() settingDto: SettingsDto) {
+    console.log(settingDto)
     return await this.settingService.create(settingDto);
   }
 
