@@ -5,6 +5,8 @@ import {
   Post,
   UseGuards,
   Request,
+  Delete,
+  Param,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CartService } from './cart.service';
@@ -18,13 +20,19 @@ export class CartController {
 
   @Post()
   @UseGuards(AuthGuard('jwt'))
-  createCart(@Body() cart: CartDTO, @Request() req) {
-    return this.cartService.create(cart, req.user._id);
+  async createCart(@Body() cart: CartDTO, @Request() req) {
+    return await this.cartService.create(cart, req.user._id);
   }
 
   @Get()
   @UseGuards(AuthGuard('jwt'))
-  getCart(@Request() req) {
-    return this.cartService.getCartList(req.user._id);
+  async getCart(@Request() req) {
+    return await this.cartService.getCartList(req.user._id);
+  }
+
+  @Delete('/:productId')
+  @UseGuards(AuthGuard('jwt')) 
+  async deleteCart( @Request() req ,@Param('productId') productId:string ) {
+    return await this.cartService.deleteListCart(req.user._id,productId);
   }
 }

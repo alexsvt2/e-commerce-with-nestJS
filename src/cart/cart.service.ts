@@ -40,4 +40,23 @@ export class CartService {
 
     return products;
   }
+
+  async deleteListCart(userId: string, productId: string) {
+
+    if(!userId || !productId) throw new HttpException('please insert  productID', HttpStatus.NO_CONTENT);
+
+    const userCartList = await this.cartModel.findOne({'user':userId})
+    
+    if(userCartList.products.length !== 1) {
+      const productsList = userCartList.products;
+      userCartList.products = productsList.filter((el) => el.productId != productId);
+
+     userCartList.save();
+      return userCartList.populate('products.productId ')
+    } else{
+      userCartList.products = [];
+      userCartList.save();
+      return userCartList.populate('products.productId ')
+    }
+  }
 }
