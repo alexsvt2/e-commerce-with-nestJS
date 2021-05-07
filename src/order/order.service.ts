@@ -130,7 +130,7 @@ export class OrderService {
     const order = await this.orderModel.updateOne(
       { _id: id },
       {
-        $set: { status: status },
+        $set: { status: status ,updateStatusDate:Date.now()},
       },
     );
 

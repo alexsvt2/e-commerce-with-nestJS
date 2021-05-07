@@ -16,6 +16,7 @@ export class OrderDto {
   shippingMethod: string;
   @ApiProperty()
   status: string;
+  updateStatusDate:date;
   @ApiProperty()
   products: cartProduct[];
 }
