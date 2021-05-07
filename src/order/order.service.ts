@@ -127,10 +127,11 @@ export class OrderService {
   }
 
   async updateOrderStatus(status: string, id: string) {
+    const today: Date = new Date(Date.now());
     const order = await this.orderModel.updateOne(
       { _id: id },
       {
-        $set: { status: status ,updateStatusDate:Date.now()},
+        $set: { status: status ,updateStatusDate:today},
       },
     );
 
