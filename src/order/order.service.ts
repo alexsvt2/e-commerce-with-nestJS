@@ -22,10 +22,18 @@ export class OrderService {
     userId: string,
     amount: number,
     amountWithTax: number,
+    coupon: boolean , 
+    discount: number
   ) {
     orderDto.user = userId;
     // add this order to DB and save
     const order = await this.orderModel.create({ ...orderDto });
+
+    // calculate orginal price 
+    for (let i =0 ; i< orderDto.products.length ; i++) {
+      order.products[i].orginalProduct = await this.productModel.findById(order.products[i].productId )
+   
+    }
     await order.save();
 
     // calculate and create  invoice
@@ -36,16 +44,16 @@ export class OrderService {
       totalWithTax: amountWithTax,
       order: order._id,
       user: userId,
-      isPaid: true,
-      withCoupon: false,
-      withDiscount: 0,
+      withCoupon: coupon,
+      withDiscount: discount,
     };
-
+    console.log(invoiceDto)
     const invoice = await this.invoiceService.create(invoiceDto);
 
     // save the invoice id at order obj
     order.invoice = invoice._id;
     await order.save();
+
 
     // claculate the new qty of each product
     await this.calculateNewQtyOfProducts(orderDto.products);
@@ -87,7 +95,7 @@ export class OrderService {
 
     const orders = await this.orderModel
       .find(query, {}, queryPage)
-      .populate(' invoice products.productId')
+      .populate(' invoice products.productId shippingMethod')
       .populate('user', '-isAdmin')
       .sort({ createDate: -1 });
     const ordersCount = await this.orderModel.count(query);
@@ -105,7 +113,7 @@ export class OrderService {
 
     const orders = await this.orderModel
       .find({'user':userId})
-      .populate('user invoice products.productId')
+      .populate('user invoice products.productId shippingMethod')
       .sort({ createDate: -1 });
     const ordersCount = await this.orderModel.count({'user':userId});
     const totalPages = Math.ceil(ordersCount / size);
@@ -115,7 +123,7 @@ export class OrderService {
   async getById(id: any): Promise<Order> {
     return await this.orderModel
       .findById(id)
-      .populate('user invoice products.productId');
+      .populate('user invoice products.productId shippingMethod');
   }
 
   async updateOrderStatus(status: string, id: string) {
@@ -147,8 +155,9 @@ export class OrderService {
       )
       .subscribe(async (result) => {
         if (result.data.status == "CAPTURED") {
-          this.updateOrderStatus('paid',orderId)
+          this.updateOrderStatus('Approved',orderId)
         }else {
+
            throw new HttpException('Invalid cahrge Id', HttpStatus.UNAUTHORIZED);
 
         }

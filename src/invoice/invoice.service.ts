@@ -16,7 +16,7 @@ export class InvoiceService {
     });
 
     if (!preInvoice) {
-      invoiceDto.isPaid = true;
+   
       const invoice = await this.invoiceModel.create({
         ...invoiceDto,
       });

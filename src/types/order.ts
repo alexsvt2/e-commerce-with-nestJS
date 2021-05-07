@@ -9,5 +9,6 @@ export interface Order extends Document {
   invoice: string;
   paymentMethod: string;
   status: string;
+  shippingMethod: string;
   products: cartProduct[];
 }

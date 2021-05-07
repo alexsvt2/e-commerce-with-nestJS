@@ -11,8 +11,6 @@ export class InvoiceDto {
   @ApiProperty()
   user: string;
   @ApiProperty()
-  isPaid: boolean;
-  @ApiProperty()
   withCoupon: boolean;
   @ApiProperty()
   withDiscount: number;

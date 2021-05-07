@@ -11,9 +11,20 @@ export class SettingsService {
   ) {}
 
   async create(settingsDto: SettingsDto) {
+    const settings = await this.settingsModel.find();
+
+    if(settings.length === 0){
     const setting = await this.settingsModel.create({ ...settingsDto });
     await setting.save();
     return setting;
+    }
+    else {
+      settings[0].vat = settingsDto.vat;
+      settings[0].version = settingsDto.version;
+      
+    }
+    await settings[0].save();
+    return settings[0]
   }
 
   async getAll() {

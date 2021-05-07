@@ -48,17 +48,17 @@ export class OrderController {
   @Post()
   @UseGuards(AuthGuard('jwt') )
   async createOrder(
-    @Body() orderDto: OrderDto,
-    @Request() req,
-    amount: number,
-    amountWithTax: number,
+    @Body() orderDto: any,
+    @Request() req
   ) {
-    console.log("user " + req.user._id)
+    
     return await this.orderService.create(
       orderDto,
       req.user._id,
-      amount,
-      amountWithTax,
+      orderDto.amount,
+      orderDto.amountWithTax,
+      orderDto.coupon,
+      orderDto.discount
     );
   }
   @Put('/:id')

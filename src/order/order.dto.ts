@@ -13,6 +13,8 @@ export class OrderDto {
   @ApiProperty()
   paymentMethod: string;
   @ApiProperty()
+  shippingMethod: string;
+  @ApiProperty()
   status: string;
   @ApiProperty()
   products: cartProduct[];
