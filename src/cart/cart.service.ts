@@ -48,7 +48,7 @@ export class CartService {
     
     if(userCartList.products.length !== 1) {
       const productsList = userCartList.products;
-      userCartList.products = productsList.filter((el) => el.productId != productId);
+      userCartList.products = productsList.filter((el) => el._id != productId);
 
      userCartList.save();
       return userCartList.populate('products.productId ')
