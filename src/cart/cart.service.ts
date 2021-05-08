@@ -10,21 +10,20 @@ import { CartDTO } from './cart.dto';
 export class CartService {
   constructor(@InjectModel('Cart') private cartModel: Model<Cart>) {}
 
-  async create(cartDto: CartDTO, userId: string): Promise<Cart> {
+  async create(cartDto: any, userId: string): Promise<Cart> {
     const userCart = await this.cartModel.findOne({ user: userId });
+    console.log(userCart)
     if (userCart) {
-      for (let i = 0; i < cartDto.products.length; i++)
-        userCart.products.push(cartDto.products[i]);
-
+     userCart.products.push(cartDto);
       await userCart.save();
-
       return userCart;
     } else {
       const createCart = {
         user: userId,
-        products: cartDto.products,
+        products: cartDto,
       };
-      const cart = await this.cartModel.create(createCart);
+      const cart = await this.cartModel.create({...createCart});
+      await cart.save()
       return cart;
     }
   }
