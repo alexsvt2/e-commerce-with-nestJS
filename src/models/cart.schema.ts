@@ -6,7 +6,7 @@ export const cartSchema = new mongoose.Schema({
     {
       productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
       qtyOfProduct: { type: Number },
-      variantIdOfProduct: { String },
+      variantIdOfProduct: { type:String },
       variant: {
         _id: { type: mongoose.Schema.Types.ObjectId },
         variants: [

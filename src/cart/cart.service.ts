@@ -12,10 +12,11 @@ export class CartService {
 
   async create(cartDto: any, userId: string): Promise<Cart> {
     const userCart = await this.cartModel.findOne({ user: userId });
-    console.log(userCart)
     if (userCart) {
      userCart.products.push(cartDto);
       await userCart.save();
+      console.log(userCart)
+
       return userCart;
     } else {
       const createCart = {
@@ -24,6 +25,8 @@ export class CartService {
       };
       const cart = await this.cartModel.create({...createCart});
       await cart.save()
+      console.log(cart)
+
       return cart;
     }
   }
