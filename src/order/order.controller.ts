@@ -58,7 +58,8 @@ export class OrderController {
       orderDto.amount,
       orderDto.amountWithTax,
       orderDto.coupon,
-      orderDto.discount
+      orderDto.discount,
+      orderDto.couponName
     );
   }
   @Put('/:id')

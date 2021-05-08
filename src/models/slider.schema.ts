@@ -7,6 +7,7 @@ export const sliderSchema = new mongoose.Schema({
       order: { type: Number },
       key: { type: String },
       redirect: String,
+      type:String
     },
   ],
 });

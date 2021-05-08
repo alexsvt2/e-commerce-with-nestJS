@@ -14,6 +14,9 @@ export class InvoiceDto {
   withCoupon: boolean;
   @ApiProperty()
   withDiscount: number;
+  @ApiProperty()
+  couponName:string;
+
 }
 
 export type UpdateInvoiceDTO = Partial<InvoiceDto>;

@@ -23,7 +23,8 @@ export class OrderService {
     amount: number,
     amountWithTax: number,
     coupon: boolean , 
-    discount: number
+    discount: number,
+    couponName:string
   ) {
     orderDto.user = userId;
     // add this order to DB and save
@@ -45,6 +46,7 @@ export class OrderService {
       order: order._id,
       user: userId,
       withCoupon: coupon,
+      couponName: couponName,
       withDiscount: discount,
     };
     console.log(invoiceDto)

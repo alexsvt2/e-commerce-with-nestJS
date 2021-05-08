@@ -12,6 +12,8 @@ export class SliderImage {
   key: string;
   @ApiProperty()
   redirect: string;
+  @ApiProperty()
+  type: string;
 }
 
 export interface Slider extends Document {
