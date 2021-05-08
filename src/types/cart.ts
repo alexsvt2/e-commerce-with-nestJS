@@ -4,6 +4,7 @@ import { variant } from './product';
 import { Name } from './shared.dto';
 
 export class cartProduct {
+  _id:string;
   productId: string;
   qtyOfProduct: number;
   variantIdOfProduct: string;
