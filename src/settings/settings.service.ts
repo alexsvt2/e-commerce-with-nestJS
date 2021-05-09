@@ -21,7 +21,8 @@ export class SettingsService {
     else {
       settings[0].vat = settingsDto.vat;
       settings[0].version = settingsDto.version;
-      
+      settings[0].cod = settingsDto.cod;
+
     }
     await settings[0].save();
     return settings[0]

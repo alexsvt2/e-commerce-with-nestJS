@@ -6,4 +6,6 @@ export class SettingsDto {
   vat: number;
   @ApiProperty()
   version:Version;
+  @ApiProperty()
+  cod:number
 }

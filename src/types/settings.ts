@@ -8,5 +8,6 @@ export class Version {
 
 export interface Settings extends Document {
   vat: number;
+  cod:number;
   version:Version;
 }
