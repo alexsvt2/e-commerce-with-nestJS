@@ -1,7 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { SliderImage } from 'src/types/slider';
 
 export class SliderDto {
   @ApiProperty()
-  images: SliderImage[];
+  path: string;
+  @ApiProperty()
+  order?: number;
+  @ApiProperty()
+  key: string;
+  @ApiProperty()
+  redirect: string;
+  @ApiProperty()
+  type: string;
 }
