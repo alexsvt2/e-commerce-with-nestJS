@@ -17,6 +17,9 @@ export class ProductService {
     private settingsService: SettingsService,
   ) {}
 
+  async findAllList() {
+    return await this.productModel.find();
+  }
   async findAll(page: number = 1, perPage: number = 10, query: any) {
     const pageNo = Number(page);
     const size = Number(perPage);

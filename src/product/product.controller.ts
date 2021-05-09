@@ -36,6 +36,12 @@ export class ProductController {
     return await this.productService.findAll(page, perPage, restQuery);
   }
 
+  @Get()
+  //@UseGuards(AuthGuard('jwt') , AdminGuard)
+  async getAllProductList() {
+    return await this.productService.findAllList();
+  }
+
   @Get('/getByCategory/:id')
   async getProductByCategoryId(@Param('id') id: string, @Query() query: any) {
     const { perPage, page } = query;
