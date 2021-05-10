@@ -143,29 +143,14 @@ console.log(products.length)
   }
 
   
-  async verfyChargePayment(chargeId:string , orderId: string) {
+  async verfyChargePayment(data:string , orderId: string) {
 
-    const headers = {
-      authorization: 'Bearer sk_test_XKokBfNWv6FIYuTMg5sLPjhJ',
-      'content-type': 'application/json',
-    };
+    if (data == "CAPTURED") {
+      this.updateOrderStatus('Approved',orderId)
+    }else {
+      this.updateOrderStatus('Rejected',orderId)
+       throw new HttpException('Invalid cahrge Id', HttpStatus.UNAUTHORIZED);
 
-    const dd = await this.httpService
-      .get(
-        "https://api.tap.company/v2/charges/"+chargeId ,
-    
-        {
-          headers: headers,
-        },
-      )
-      .subscribe(async (result) => {
-        if (result.data.status == "CAPTURED") {
-          this.updateOrderStatus('Approved',orderId)
-        }else {
-
-           throw new HttpException('Invalid cahrge Id', HttpStatus.UNAUTHORIZED);
-
-        }
-      });
+    }
   }
 }

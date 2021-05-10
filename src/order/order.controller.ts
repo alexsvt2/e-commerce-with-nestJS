@@ -39,10 +39,10 @@ export class OrderController {
     return await this.orderService.getById(id);
   }
 
-  @Post('/verfyCharge/:chargeId/:orderId')
+  @Post('/verfyCharge/:orderId')
   @UseGuards(AuthGuard('jwt') )
-  async verfyCharge(@Param('chargeId') chargeId: string,@Param('orderId') orderId: string) {
-    return await this.orderService.verfyChargePayment(chargeId,orderId);
+  async verfyCharge(@Body() body,@Param('orderId') orderId: string) {
+    return await this.orderService.verfyChargePayment(body.status,orderId);
   }
 
   @Post()
