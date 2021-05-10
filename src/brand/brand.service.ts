@@ -16,7 +16,7 @@ export class BrandService {
     return await this.brandModel.findById(id);
   }
 
-  async create(BrandDTO: BrandDTO): Promise<Brand> {
+  async create(BrandDTO): Promise<Brand> {
     BrandDTO.order = parseInt(BrandDTO.order)
     const brand = await this.brandModel.create({
       ...BrandDTO,
@@ -25,8 +25,9 @@ export class BrandService {
     return brand;
   }
 
-  async update(id: string, BrandDTO: BrandDTO): Promise<Brand> {
+  async update(id: string, BrandDTO): Promise<Brand> {
     const brand = await this.brandModel.findById(id);
+    BrandDTO.order = parseInt(BrandDTO.order)
 
     await brand.update(BrandDTO);
     return await this.brandModel.findById(id);
