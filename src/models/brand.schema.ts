@@ -5,6 +5,7 @@ export const brandSchema = new mongoose.Schema({
     ar: { type: String, requierd: true },
     en: { type: String, requierd: true },
   },
+  order:Number,
   image: {
     path: { type: String, requierd: true },
     key: { type: String },

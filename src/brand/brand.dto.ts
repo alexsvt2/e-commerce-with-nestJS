@@ -7,5 +7,7 @@ export class BrandDTO {
   @ApiProperty()
   brandName: Name;
   @ApiProperty()
+  order: number;
+  @ApiProperty()
   image: Image;
 }

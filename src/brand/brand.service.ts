@@ -17,6 +17,7 @@ export class BrandService {
   }
 
   async create(BrandDTO: BrandDTO): Promise<Brand> {
+    BrandDTO.order = parseInt(BrandDTO.order)
     const brand = await this.brandModel.create({
       ...BrandDTO,
     });

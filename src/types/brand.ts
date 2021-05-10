@@ -5,5 +5,6 @@ import { Name } from './shared.dto';
 
 export interface Brand extends Document {
   brandName: Name;
+  order:number;
   image: Image;
 }
