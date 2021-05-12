@@ -33,16 +33,7 @@ export class ProductService {
       // const productNameFilter = 'Test';
       // eslint-disable-next-line prefer-const
       products = await this.productModel
-        .find(
-          {},
-          // {
-          //   'productName.en': {
-          //     $regex: productNameFilter,
-          //     $options: 'i' as never,
-          //   },
-          // },
-          {},
-          query,
+        .find(query, {}, queryPage
         )
         .populate('category brand fashionModel')
         .populate('variants.variants.variantId')
