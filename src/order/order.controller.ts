@@ -40,8 +40,8 @@ export class OrderController {
   }
 
   @Post('/verfyCharge/:orderId')
-  @UseGuards(AuthGuard('jwt') )
   async verfyCharge(@Body() body,@Param('orderId') orderId: string) {
+    console.log(body)
     return await this.orderService.verfyChargePayment(body.status,orderId);
   }
 

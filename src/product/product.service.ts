@@ -32,12 +32,23 @@ export class ProductService {
     if (query) {
       // const productNameFilter = 'Test';
       // eslint-disable-next-line prefer-const
+      if(query.productName !== undefined || null) {
+        console.log(query)
+        products = await this.productModel
+        .find({ $or: [ {'productName.ar' : { $regex: query.productName, $options: 'i' }},
+         { 'productName.en': { $regex: query.productName, $options: 'i' } } ]}, {}, queryPage
+        )
+        .populate('category brand fashionModel')
+        .populate('variants.variants.variantId')
+        .sort({ createDate: -1 });
+      } else{
       products = await this.productModel
         .find(query, {}, queryPage
         )
         .populate('category brand fashionModel')
         .populate('variants.variants.variantId')
         .sort({ createDate: -1 });
+      }
     } else {
       products = await this.productModel
         .find(query, {}, queryPage)
