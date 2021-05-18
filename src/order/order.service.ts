@@ -31,11 +31,11 @@ export class OrderService {
     const order = await this.orderModel.create({ ...orderDto });
 
     // calculate orginal price 
-    for (let i =0 ; i< orderDto.products.length ; i++) {
-      order.products[i].orginalProduct = await this.productModel.findById(order.products[i].productId )
+    // for (let i =0 ; i< orderDto.products.length ; i++) {
+    //   order.products[i].orginalProduct = await this.productModel.findById(order.products[i].productId )
    
-    }
-    await order.save();
+    // }
+    // await order.save();
 
     // calculate and create  invoice
     let invoiceDto = new InvoiceDto();
@@ -64,19 +64,21 @@ export class OrderService {
   }
 
   async calculateNewQtyOfProducts(products: cartProduct[]) {
+    console.log('here qty ')
     for (let i = 0; i < products.length; i++) {
       // get the qty of each product
       let productQty = await this.productModel.findById(products[i].productId);
       let q1 = productQty.variants;
 
       let varQty = q1.find(x => String(x._id) === products[i].variantIdOfProduct)
-console.log(products.length)
+
+
 //console.log(typeof products[i].variantIdOfProduct)
 
       let product = await this.productModel.updateOne(
         {
           _id: products[i].productId,
-          'variants._id': products[i].variant._id,
+          'variants._id': products[i].variantIdOfProduct,
         },
         {
           $set: {
