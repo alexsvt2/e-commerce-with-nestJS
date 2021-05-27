@@ -30,7 +30,7 @@ export class OrderController {
   @UseGuards(AuthGuard('jwt') )
   async getAllUserOrders(@Query() query: any , @Request() req) {
     const { perPage, page, ...restQuery } = query;
-    return await this.orderService.getOrders(page, perPage, req.user._id);
+    return await this.orderService.getOrdersByUserId(page, perPage, req.user._id);
   }
 
   @Get(':id')
