@@ -19,6 +19,7 @@ export interface User extends Document {
   fullName: string;
   email: string;
   isAdmin: boolean;
+  otp:string;
   phoneNumber: string;
   password: string;
   isGuest: boolean;

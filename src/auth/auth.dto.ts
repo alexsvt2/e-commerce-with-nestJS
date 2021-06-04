@@ -17,6 +17,8 @@ export class RegisterDTO {
   @ApiProperty()
   password: string;
   @ApiProperty()
+  otp: string;
+  @ApiProperty()
   isAdmin: boolean;
   @ApiProperty()
   email: string;

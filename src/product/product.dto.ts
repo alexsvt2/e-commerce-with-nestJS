@@ -33,6 +33,10 @@ export class CreateProductDTO {
   @ApiProperty()
   isActive: boolean;
   @ApiProperty()
+  order: number;
+  @ApiProperty()
+  new: boolean;
+  @ApiProperty()
   isFeature: boolean;
   @ApiProperty()
   discount: number;

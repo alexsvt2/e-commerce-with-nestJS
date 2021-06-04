@@ -71,5 +71,23 @@ export class AuthController {
     return users;
   }
 
+  @Post('/sendOtp')
+  async sendOtp(@Body('email') email:string) {
+    return await this.authService.resetPassword(email) ; 
+  }
+
+  @Get('/verfyOtp')
+  async verfyOtp(@Param('email') email:string , @Param('otp') otp:string) {
+    const payload: Payload = {
+      email: email,
+      isAdmin:false
+    };
+    return await this.authService.verifyOtp(otp,payload) ; 
+  }
+
+  @Post('/changePassword')
+  async changePassword(@Body() body:any) {
+    return await this.userService.changePassword(body) ; 
+  }
 
 }

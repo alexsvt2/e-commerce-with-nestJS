@@ -40,6 +40,8 @@ export interface product extends Document {
   qty: number;
   threshold: number;
   isActive: boolean;
+  new:boolean;
+  order:number;
   isFeature: boolean;
   discount: number;
   thumbnail: Image;

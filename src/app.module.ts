@@ -20,6 +20,7 @@ import { SliderModule } from './slider/slider.module';
 import { FashionModelModule } from './fashion-model/fashion-model.module';
 import { ShipmentMethodModule } from './shipment-method/shipment-method.module';
 import { SettingsModule } from './settings/settings.module';
+import { MailModule } from './mail/mail.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { SettingsModule } from './settings/settings.module';
     FashionModelModule,
     ShipmentMethodModule,
     SettingsModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [AppService],

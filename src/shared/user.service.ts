@@ -79,6 +79,47 @@ export class UserService {
     return { users, totalPages };
   }
 
+  async addOtp(email:string , otp:string){
+    const user = await this.userModel.updateOne(
+      { email: email },
+      {
+        $set: { otp: otp },
+      },
+    );
+
+    return user ;
+  }
+
+  // reset password 
+  async changePassword(body: any) {
+    let newPassword = body.newPassword;
+  let confirmNewPaassword = body.confirmNewPaassword;
+  let email = body.email;
+  
+
+  if (newPassword == confirmNewPaassword) {
+      const user = await this.userModel.findOne({ email: email });
+
+      if (user != null) {
+        try {
+          const salt = await bcrypt.genSalt(10, (error, hash) => {
+            if (error) throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+
+          });
+          const hash = await bcrypt.hash(newPassword, salt, null);
+          user.password = hash;
+         return await user.save();
+          // res.status(200).send('The password has been changed');
+        } catch (e) {
+          throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+        }
+      } else {
+        throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
+
+      }
+    
+  }
+}
   // find by filter
   // eslint-disable-next-line @typescript-eslint/no-inferrable-types
   async findAllusersFilter(page: any, filterBody: any) {

@@ -43,6 +43,8 @@ export const productSchema = new mongoose.Schema({
   threshold: { type: Number, requierd: true },
   isActive: { type: Boolean, default: true },
   isFeature: { type: Boolean, default: false },
+  new: { type: Boolean, default: false },
+  order:Number,
   discount: { type: Number, default: 0 },
   thumbnail: {
     path: { type: String, requierd: true },

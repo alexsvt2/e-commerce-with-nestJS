@@ -23,6 +23,9 @@ export const UserSchema = new mongoose.Schema({
     type: String,
     select: false,
   },
+  otp:{
+    type:String
+  },
   phoneNumber: {
     type: Number,
     requierd: true,

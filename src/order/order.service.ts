@@ -30,12 +30,12 @@ export class OrderService {
     // add this order to DB and save
     const order = await this.orderModel.create({ ...orderDto });
 
-    // calculate orginal price 
-    // for (let i =0 ; i< orderDto.products.length ; i++) {
-    //   order.products[i].orginalProduct = await this.productModel.findById(order.products[i].productId )
+    //calculate orginal price 
+    for (let i =0 ; i< orderDto.products.length ; i++) {
+      order.products[i].orginalProduct = await this.productModel.findById(order.products[i].productId )
    
-    // }
-    // await order.save();
+    }
+    await order.save();
 
     // calculate and create  invoice
     let invoiceDto = new InvoiceDto();
