@@ -63,6 +63,17 @@ export class OrderService {
     return order;
   }
 
+  async calcuuulate(orderId:string) {
+    console.log('dddd')
+    const order = await this.orderModel.findById(orderId)
+    //calculate orginal price 
+    for (let i =0 ; i< order.products.length ; i++) {
+      order.products[i].orginalProduct = await this.productModel.findById(order.products[i].productId )
+   
+    }
+    await order.save()
+    return true ;
+  }
   async calculateNewQtyOfProducts(products: cartProduct[]) {
     console.log('here qty ')
     for (let i = 0; i < products.length; i++) {

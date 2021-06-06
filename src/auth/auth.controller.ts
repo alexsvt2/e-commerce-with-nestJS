@@ -77,7 +77,7 @@ export class AuthController {
   }
 
   @Get('/verfyOtp')
-  async verfyOtp(@Param('email') email:string , @Param('otp') otp:string) {
+  async verfyOtp(@Query('email') email:string , @Query('otp') otp:string) {
     const payload: Payload = {
       email: email,
       isAdmin:false

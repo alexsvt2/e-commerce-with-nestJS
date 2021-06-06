@@ -39,6 +39,13 @@ export class OrderController {
     return await this.orderService.getById(id);
   }
 
+  @Post('/calll')
+  //@UseGuards(AuthGuard('jwt') , AdminGuard)
+  async Callll(@Body('id') id:string) {
+    console.log('dddd')
+    return await this.orderService.calcuuulate(id);
+  }
+
   @Post('/verfyCharge/:orderId')
   async verfyCharge(@Body() body,@Param('orderId') orderId: string) {
     console.log(body)
