@@ -80,14 +80,9 @@ export class OrderService {
       // get the qty of each product
       let productQty = await this.productModel.findById(products[i].productId);
 
-      if(!productQty.variants[0]?.variantValue || productQty.variants == []){
+      if(!productQty?.variants[0]?.variantValue ){
         console.log(productQty.variants[0].variantValue )
-        // let q1 = productQty.variants;
-
-        // let varQty = q1.find(x => String(x._id) === products[i].variantIdOfProduct)
-  
-  
-  //console.log(typeof products[i].variantIdOfProduct)
+     
   
         let product = await this.productModel.updateOne(
           {
