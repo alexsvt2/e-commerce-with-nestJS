@@ -79,25 +79,47 @@ export class OrderService {
     for (let i = 0; i < products.length; i++) {
       // get the qty of each product
       let productQty = await this.productModel.findById(products[i].productId);
-      let q1 = productQty.variants;
+      if(!productQty.variants || productQty.variants == []){
+        // let q1 = productQty.variants;
 
-      let varQty = q1.find(x => String(x._id) === products[i].variantIdOfProduct)
-
-
-//console.log(typeof products[i].variantIdOfProduct)
-
-      let product = await this.productModel.updateOne(
-        {
-          _id: products[i].productId,
-          'variants._id': products[i].variantIdOfProduct,
-        },
-        {
-          $set: {
-            qty: productQty.qty - products[i].qtyOfProduct,
-            'variants.$.qty':varQty.qty - products[i].qtyOfProduct
+        // let varQty = q1.find(x => String(x._id) === products[i].variantIdOfProduct)
+  
+  
+  //console.log(typeof products[i].variantIdOfProduct)
+  
+        let product = await this.productModel.updateOne(
+          {
+            _id: products[i].productId
           },
-        },
-      );
+          {
+            $set: {
+              qty: productQty.qty - products[i].qtyOfProduct
+            },
+          },
+        );
+        //  product.qty = product.qty - products[i].qtyOfProduct;
+      }else{
+        let q1 = productQty.variants;
+
+        let varQty = q1.find(x => String(x._id) === products[i].variantIdOfProduct)
+  
+  
+  //console.log(typeof products[i].variantIdOfProduct)
+  
+        let product = await this.productModel.updateOne(
+          {
+            _id: products[i].productId,
+            'variants._id': products[i].variantIdOfProduct,
+          },
+          {
+            $set: {
+              qty: productQty.qty - products[i].qtyOfProduct,
+              'variants.$.qty':varQty.qty - products[i].qtyOfProduct
+            },
+          },
+        );
+      }
+  
       //  product.qty = product.qty - products[i].qtyOfProduct;
     }
   }
