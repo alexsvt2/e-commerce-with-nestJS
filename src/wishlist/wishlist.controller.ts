@@ -1,8 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
+  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -25,5 +28,11 @@ export class WishlistController {
   @UseGuards(AuthGuard('jwt'))
   async get(@Request() req) {
     return this.wishlistService.get(req.user._id);
+  }
+
+  @Delete()
+  @UseGuards(AuthGuard('jwt'))
+  async delete(@Request() req, @Query('productId') productId:string) {
+    return this.wishlistService.deleteOne(req.user._id,productId);
   }
 }

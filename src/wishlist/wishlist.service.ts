@@ -45,4 +45,15 @@ export class WishlistService {
       return wishlist;
     }
   }
+
+  async deleteOne(userId: string, productId:string) {
+    const wishlist = await this.wishlistModel
+      .findOne({ user: userId })
+      .populate('products');
+
+  const deleteFromWishList = wishlist.products.filter(x => x !== productId);
+
+  wishlist.products = deleteFromWishList ; 
+  return await wishlist.save()
+  }
 }
