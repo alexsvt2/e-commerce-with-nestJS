@@ -152,6 +152,9 @@ export class ProductService {
   }
 
   async create(productDTO: CreateProductDTO): Promise<product> {
+    if(!productDTO.variants) {
+      productDTO.variants = []
+    }
     const product = await this.productModel.create({
       ...productDTO,
     });

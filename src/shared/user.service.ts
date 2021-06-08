@@ -24,7 +24,7 @@ export class UserService {
     userDTO.isGuest = false;
     const createdUser = new this.userModel(userDTO);
     await createdUser.save();
-    return this.sanitizeUser(createdUser);
+    return createdUser;
   }
 
   async getUserProfile(id: string) {
@@ -52,8 +52,10 @@ export class UserService {
 
     if (await bcrypt.compare(password, user.password)) {
 
-      return this.sanitizeUser(user);
+      return user;
     } else {
+      const isMatch = await bcrypt.compare(password, user.password);
+      console.log(isMatch)
       throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
     }
   }
@@ -99,19 +101,27 @@ export class UserService {
 
   if (newPassword == confirmNewPaassword) {
       const user = await this.userModel.findOne({ email: email });
-
+      console.log(user)
       if (user != null) {
         try {
-          const salt = await bcrypt.genSalt(10, (error, hash) => {
-            if (error) throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+          const salt = await bcrypt.genSalt();
+         
+          const hashPassword = await bcrypt.hash(
+            newPassword,
+            salt,
+            async (error, hash) => {
+              if (error) return error;
+              user.password = newPassword
+              console.log(user.password)
 
-          });
-          const hash = await bcrypt.hash(newPassword, salt, null);
-          user.password = hash;
-         return await user.save();
+             
+              return await user.save()
+            }
+          )
+     
           // res.status(200).send('The password has been changed');
         } catch (e) {
-          throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
+          throw new HttpException('somthing wrong !', HttpStatus.UNAUTHORIZED);
         }
       } else {
         throw new HttpException('User not found', HttpStatus.UNAUTHORIZED);
@@ -136,10 +146,5 @@ export class UserService {
     const totalPages = Math.ceil(userCount / size);
     return { users, totalPages };
   }
-  sanitizeUser(user: User) {
-    const sanitized = user.toObject();
-    delete sanitized['password'];
-    return sanitized;
-    // return user.depopulate('password');
-  }
+
 }
