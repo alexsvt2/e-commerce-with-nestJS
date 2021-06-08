@@ -80,7 +80,7 @@ export class OrderService {
       // get the qty of each product
       let productQty = await this.productModel.findById(products[i].productId);
 
-      if(!productQty.variants[0].variantValue || productQty.variants == []){
+      if(!productQty.variants[0]?.variantValue || productQty.variants == []){
         console.log(productQty.variants[0].variantValue )
         // let q1 = productQty.variants;
 
