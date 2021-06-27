@@ -90,4 +90,18 @@ export class AuthController {
     return await this.userService.changePassword(body) ; 
   }
 
+  @Post('/sendToAllUsersNotifications')
+  async sendNotifications(@Body() body:any) {
+    let tokens:string[];
+    const users = await this.userService.findAllusersWithoutPages();
+
+    users.map(user =>{
+      if(user.mobileToken){
+        tokens.push(user.mobileToken)
+      }
+    })
+
+    return await this.userService.sendNotifications(body.title , body.body , tokens)
+  }
+
 }

@@ -2,10 +2,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { cartProduct } from 'src/types/cart';
 import { Address } from 'src/types/user';
+import { User } from 'src/types/user';
 
 export class OrderDto {
   @ApiProperty()
-  user: string;
+  user: string ;
   @ApiProperty()
   address: Address;
   @ApiProperty()

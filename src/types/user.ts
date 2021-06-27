@@ -21,6 +21,7 @@ export interface User extends Document {
   isAdmin: boolean;
   otp:string;
   phoneNumber: string;
+  mobileToken: string;
   password: string;
   isGuest: boolean;
   address: Address[];

@@ -25,6 +25,8 @@ export class RegisterDTO {
   @ApiProperty()
   phoneNumber: number;
   @ApiProperty()
+  mobileToken: string;
+  @ApiProperty()
   address?: Address[];
   @ApiProperty()
   isGuest: boolean;

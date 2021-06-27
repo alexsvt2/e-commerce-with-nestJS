@@ -13,6 +13,9 @@ export const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  mobileToken: {
+    type: String,
+  },
   email: {
     type: String,
     maxlength: 60,
