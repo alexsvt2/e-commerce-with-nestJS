@@ -7,12 +7,14 @@ import { InvoiceService } from '../invoice/invoice.service';
 import { InvoiceDto } from '../invoice/invoice.dto';
 import { cartProduct } from 'src/types/cart';
 import { product } from 'src/types/product';
+import { UserService } from 'src/shared/user.service';
 
 @Injectable()
 export class OrderService {
   constructor(
     @InjectModel('Orders') private orderModel: Model<Order>,
     @InjectModel('Product') private productModel: Model<product>,
+    private userService: UserService,
     private httpService: HttpService,
     private invoiceService: InvoiceService,
   ) {}
@@ -75,7 +77,6 @@ export class OrderService {
     return true ;
   }
   async calculateNewQtyOfProducts(products: cartProduct[]) {
-    console.log('here qty ')
     for (let i = 0; i < products.length; i++) {
       // get the qty of each product
       let productQty = await this.productModel.findById(products[i].productId);
@@ -171,9 +172,17 @@ export class OrderService {
       },
     );
 
+    const orderGet = await this.orderModel.findById(id).populate('user')
+    let userToken:any[] 
+      userToken.push(orderGet.user)
+      
+    await this.userService.sendNotifications("Order Status " , `your ourder now is ${status}` 
+    , userToken[0].mobileToken)
+
     return order;
   }
 
+ 
   
   async verfyChargePayment(data:string , orderId: string) {
 

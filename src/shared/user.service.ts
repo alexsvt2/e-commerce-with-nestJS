@@ -6,6 +6,8 @@ import { Address, User } from 'src/types/user';
 import { LoginDTO, RegisterDTO } from '../auth/auth.dto';
 import { Payload } from '../types/payload';
 import * as bcrypt from 'bcrypt';
+import * as admin from 'firebase-admin';
+
 
 @Injectable()
 export class UserService {
@@ -81,6 +83,12 @@ export class UserService {
     return { users, totalPages };
   }
 
+  async findAllusersWithoutPages() {
+   
+    const users = await this.userModel.find();
+    return users;
+  }
+
   async addOtp(email:string , otp:string){
     const user = await this.userModel.updateOne(
       { email: email },
@@ -147,4 +155,25 @@ export class UserService {
     return { users, totalPages };
   }
 
+  // Push notifications 
+  async sendNotifications (messgaeTitle:string,messgaeBody:string , mobileToken:string[]) {
+
+    mobileToken.map(element =>{
+      const message ={
+        notification:{
+          title: messgaeTitle,
+          body: messgaeBody
+        } , 
+        token : element
+      }
+  
+      admin.messaging().send(message).then((res) =>{
+        console.log(res)
+      })
+      .catch(error =>{
+        console.log(error)
+      })
+    })
+  
+  }
 }
