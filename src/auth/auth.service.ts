@@ -16,7 +16,7 @@ export class AuthService {
   ) {}
 
   async signPayload(payload: Payload) {
-    return sign(payload, process.env.SECRET_KEY, { expiresIn: '7d' });
+    return sign(payload, process.env.SECRET_KEY, { expiresIn: '365d' });
   }
 
   async validateUser(payload: Payload) {
