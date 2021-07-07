@@ -7,12 +7,14 @@ import { FilesService } from 'src/shared/uploadFile.service';
 import { ProductController } from './product.controller';
 import { ProductService } from './product.service';
 import { SettingsModule } from '../settings/settings.module';
+import { NotifymeModule } from 'src/notifyme/notifyme.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'Product', schema: productSchema }]),
     SharedModule,
     SettingsModule,
+    NotifymeModule
   ],
   exports: [
     MongooseModule.forFeature([{ name: 'Product', schema: productSchema }]),

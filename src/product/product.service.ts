@@ -3,8 +3,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { NotifymeService } from 'src/notifyme/notifyme.service';
 import { SettingsService } from 'src/settings/settings.service';
 import { FilesService } from 'src/shared/uploadFile.service';
+import { UserService } from 'src/shared/user.service';
 import { product } from 'src/types/product';
 import { CreateProductDTO, UpdateProductDTO } from './product.dto';
 
@@ -15,6 +17,8 @@ export class ProductService {
     @InjectModel('Product') private productModel: Model<product>,
     private uploadfileService: FilesService,
     private settingsService: SettingsService,
+    private notifyMeService: NotifymeService,
+    private userSerivce: UserService
   ) {}
 
   async findAllList() {
@@ -164,6 +168,23 @@ export class ProductService {
 
   async update(id: string, productDTO: UpdateProductDTO): Promise<product> {
     const product = await this.productModel.findById(id);
+
+
+    // check if this product at the list of notify me
+    if(product.qty === 0){
+      if(productDTO.qty){
+       const listOfProductWantNotify = await  this.notifyMeService.getByProductId(id)
+       let tokensArray: string[] = []
+       listOfProductWantNotify.forEach(element =>{
+        tokensArray.push(element.user.mobileToken)
+       })
+
+       if(tokensArray.length !== 0 ) {
+         await this.userSerivce.sendNotifications("It's Available now !",`${product.productName.en} it's available now :)`,tokensArray)
+       }
+
+      }
+    }
 
     await product.update(productDTO);
     return await this.productModel.findById(id).populate('category');
