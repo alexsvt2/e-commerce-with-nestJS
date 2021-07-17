@@ -90,7 +90,7 @@ export class OrderService {
     await this.qoyoudService.createInvoice(QoyoudUserId , newSeq , invoice , order)
 
 
-    await this.mailService.sendInvoice(invoice, order)
+   // await this.mailService.sendInvoice(invoice, order)
 
     // claculate the new qty of each product
     await this.calculateNewQtyOfProducts(orderDto.products);
