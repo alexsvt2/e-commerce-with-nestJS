@@ -3,6 +3,7 @@ import { AxiosResponse } from 'axios';
 import { sign } from 'jsonwebtoken';
 import { Observable } from 'rxjs';
 import { MailService } from 'src/mail/mail.service';
+import { QoyoudService } from 'src/shared/qoyoud.service';
 
 import { UserService } from 'src/shared/user.service';
 import { Payload } from '../types/payload';

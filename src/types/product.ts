@@ -28,6 +28,7 @@ export class variant {
 
 export interface product extends Document {
   productName: Name;
+  qoyoudId:string;
   serialNumber: string;
   image: Image[];
   description: Description;

@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { ApiProperty } from '@nestjs/swagger';
+import { Order } from 'src/types/order';
 
 export class InvoiceDto {
   @ApiProperty()
@@ -7,7 +8,7 @@ export class InvoiceDto {
   @ApiProperty()
   totalWithTax: number;
   @ApiProperty()
-  order: string;
+  order: Order;
   @ApiProperty()
   user: string;
   @ApiProperty()
@@ -16,6 +17,7 @@ export class InvoiceDto {
   withDiscount: number;
   @ApiProperty()
   couponName:string;
+  sequenceId: string;
 
 }
 

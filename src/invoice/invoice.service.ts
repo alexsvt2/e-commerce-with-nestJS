@@ -12,7 +12,7 @@ export class InvoiceService {
   async create(invoiceDto: InvoiceDto) {
     // check if this order have previos invoices
     const preInvoice = await this.invoiceModel.findOne({
-      order: invoiceDto.order,
+      order: invoiceDto.order._id,
     });
 
     if (!preInvoice) {
@@ -49,7 +49,7 @@ export class InvoiceService {
   async update(id: string, invoiceDto: UpdateInvoiceDTO): Promise<Invoice> {
     const invoice = await this.invoiceModel.findById(id);
 
-    await invoice.update(invoiceDto);
+    //await invoice.update(invoiceDto);
     return await this.invoiceModel.findById(id).populate('order user');
   }
 
@@ -58,5 +58,20 @@ export class InvoiceService {
 
     await invoice.remove();
     return invoice;
+  }
+
+  async createNewSeq() {
+      // generate new sequence id
+		const orderCount = await this.invoiceModel.countDocuments({});
+		let newSequenceId;
+		if (orderCount == 0) {
+			newSequenceId = (orderCount + 1 + "").padStart(4, "0");
+		}else {
+			const lastOrder = await this.invoiceModel.find().sort({_id:-1}).limit(1)
+			const lastOrderSequenceId = parseInt(lastOrder[0].sequenceId.replace("#", ""))
+			newSequenceId = (lastOrderSequenceId + 1 + "").padStart(4, "0");
+		}
+
+    return newSequenceId
   }
 }

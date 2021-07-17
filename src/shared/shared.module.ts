@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+import {  Module } from '@nestjs/common';
+import {HttpModule} from '@nestjs/axios'
 import { MongooseModule } from '@nestjs/mongoose';
 import { UserSchema } from 'src/models/user.schema';
 import { FilesService } from './uploadFile.service';
@@ -8,6 +9,7 @@ import { ConfigService } from '@nestjs/config';
 import { OrderingService } from './ordering.service';
 import { productSchema } from '../models/product.schema';
 import { ProductModule } from '../product/product.module';
+import { QoyoudService } from './qoyoud.service';
 
 @Module({
   imports: [
@@ -15,11 +17,11 @@ import { ProductModule } from '../product/product.module';
       { name: 'Product', schema: productSchema },
       { name: 'User', schema: UserSchema },
     ]),
-
+    HttpModule,
     ConfigService,
   ],
-  providers: [UserService, FilesService, OrderingService],
-  exports: [UserService, FilesService, OrderingService],
+  providers: [UserService, FilesService, OrderingService,QoyoudService],
+  exports: [UserService, FilesService, OrderingService,QoyoudService],
   controllers: [UploadController],
 })
 export class SharedModule {}

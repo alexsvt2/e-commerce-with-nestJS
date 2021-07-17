@@ -24,5 +24,6 @@ export interface User extends Document {
   mobileToken: string;
   password: string;
   isGuest: boolean;
+  qoyoudId: string;
   address: Address[];
 }

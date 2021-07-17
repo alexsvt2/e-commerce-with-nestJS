@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 import * as mongoose from 'mongoose';
 export const productSchema = new mongoose.Schema({
+  qoyoudId:String,
   productName: {
     ar: { type: String, requierd: true },
     en: { type: String, requierd: true },

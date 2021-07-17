@@ -20,7 +20,7 @@ import { join } from 'path';
         }
       },
       defaults: {
-        from: '"No Reply" <noreply@example.com>',
+        from: '"No Reply" <noreply@commaa.com.sa>',
       },
       template: {
         dir: join(__dirname, 'templates'),

@@ -7,11 +7,13 @@ import { LoginDTO, RegisterDTO } from '../auth/auth.dto';
 import { Payload } from '../types/payload';
 import * as bcrypt from 'bcrypt';
 import * as admin from 'firebase-admin';
+import { QoyoudService } from './qoyoud.service';
 
 
 @Injectable()
 export class UserService {
-  constructor(@InjectModel('User') private userModel: Model<User>) {}
+  constructor(@InjectModel('User') private userModel: Model<User>,
+  private qoyoudService: QoyoudService) {}
 
   // create new user
   async create(userDTO: RegisterDTO) {
@@ -24,6 +26,8 @@ export class UserService {
 
     userDTO.email.toLowerCase();
     userDTO.isGuest = false;
+   const qoyoudId = await this.qoyoudService.createContact(userDTO.fullName , userDTO.email)
+   userDTO.qoyoudId = qoyoudId.id
     const createdUser = new this.userModel(userDTO);
     await createdUser.save();
     return createdUser;
@@ -155,10 +159,17 @@ export class UserService {
     return { users, totalPages };
   }
 
+  async addUserMobileToken(mobileToken : string , userId:string) {
+    const user = await this.userModel.findById(userId);
+    user.mobileToken = mobileToken ; 
+    await user.save()
+    return user
+  }
+
   // Push notifications 
   async sendNotifications (messgaeTitle:string,messgaeBody:string , mobileToken:string[]) {
-
-    mobileToken.map(element =>{
+    if(mobileToken.length !== 0){
+    mobileToken.forEach(element =>{
       const message ={
         notification:{
           title: messgaeTitle,
@@ -174,6 +185,11 @@ export class UserService {
         console.log(error)
       })
     })
-  
+    }
+    else{
+      return {
+        msg:"you don't have any user tokens"
+      }
+    }
   }
 }

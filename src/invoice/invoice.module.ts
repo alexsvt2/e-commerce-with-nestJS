@@ -10,7 +10,8 @@ import { productSchema } from '../models/product.schema';
     MongooseModule.forFeature([{ name: 'Invoices', schema: invoiceSchema }]),
   ],
   controllers: [InvoiceController],
-  exports: [InvoiceService],
+  exports: [InvoiceService,
+    MongooseModule.forFeature([{ name: 'Invoices', schema: invoiceSchema }])],
   providers: [InvoiceService],
 })
 export class InvoiceModule {}

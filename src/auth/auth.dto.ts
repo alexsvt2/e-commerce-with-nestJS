@@ -30,6 +30,7 @@ export class RegisterDTO {
   address?: Address[];
   @ApiProperty()
   isGuest: boolean;
+  qoyoudId:string;
 }
 
 // other way

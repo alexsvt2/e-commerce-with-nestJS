@@ -7,5 +7,6 @@ export class CategoryDTO {
     @ApiProperty()
     categoryName: Name;
     @ApiProperty()
-    image: Image
+    image: Image;
+    qoyoudId: string;
 }

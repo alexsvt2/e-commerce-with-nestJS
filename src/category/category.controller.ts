@@ -20,6 +20,10 @@ export class CategoryController {
        return await this.categoruService.findAll();
     }
 
+    // @Get('/insertAll')
+    // async insertAll() { 
+    //    return await this.categoruService.insertAlldataToQoyoud();
+    // }
     
     @Get('/getById/:id')
     async getCategoryById(@Param('id') id: string): Promise<Category> { 

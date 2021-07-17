@@ -46,6 +46,7 @@ export class CreateProductDTO {
   video: string;
   @ApiProperty()
   tags: string[];
+  qoyoudId: string;
 }
 
 export type UpdateProductDTO = Partial<CreateProductDTO>;

@@ -8,6 +8,7 @@ export const invoiceSchema = new mongoose.Schema({
   withDiscount: { type: Number },
   order: { type: mongoose.Schema.Types.ObjectId, ref: 'Orders' },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  sequenceId : String,
   createDate: {
     type: Date,
     default: Date.now,

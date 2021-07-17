@@ -26,6 +26,7 @@ export const UserSchema = new mongoose.Schema({
     type: String,
     select: false,
   },
+  qoyoudId: String,
   otp:{
     type:String
   },

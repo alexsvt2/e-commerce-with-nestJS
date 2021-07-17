@@ -5,5 +5,6 @@ import { Name } from './shared.dto';
 
 export interface Category extends Document{
     categoryName: Name;
-    image:Image
+    image:Image;
+    qoyoudId: string
 }

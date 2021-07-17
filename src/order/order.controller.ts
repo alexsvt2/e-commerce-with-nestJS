@@ -46,6 +46,13 @@ export class OrderController {
     return await this.orderService.calcuuulate(id);
   }
 
+  @Post('/temp')
+  //@UseGuards(AuthGuard('jwt') , AdminGuard)
+  async temp(@Body('id') id:string,@Body('idInv') idInv:string) {
+    console.log('dddd')
+    return await this.orderService.temp(id,idInv);
+  }
+
   @Post('/verfyCharge/:orderId')
   async verfyCharge(@Body() body,@Param('orderId') orderId: string) {
     console.log(body)

@@ -6,6 +6,7 @@ import { orderSchema } from '../models/order.schema';
 import { productSchema } from 'src/models/product.schema';
 import { InvoiceModule } from '../invoice/invoice.module';
 import { SharedModule } from 'src/shared/shared.module';
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { SharedModule } from 'src/shared/shared.module';
     MongooseModule.forFeature([{ name: 'Product', schema: productSchema }]),
     InvoiceModule,
     SharedModule,
+    MailModule,
     HttpModule
   ],
   controllers: [OrderController],

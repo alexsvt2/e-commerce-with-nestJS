@@ -8,13 +8,15 @@ import { ProductController } from './product.controller';
 import { ProductService } from './product.service';
 import { SettingsModule } from '../settings/settings.module';
 import { NotifymeModule } from 'src/notifyme/notifyme.module';
+import { CategoryModule } from 'src/category/category.module';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: 'Product', schema: productSchema }]),
     SharedModule,
     SettingsModule,
-    NotifymeModule
+    NotifymeModule,
+    CategoryModule
   ],
   exports: [
     MongooseModule.forFeature([{ name: 'Product', schema: productSchema }]),

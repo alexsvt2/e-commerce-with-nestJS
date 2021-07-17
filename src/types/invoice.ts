@@ -1,5 +1,7 @@
 /* eslint-disable prettier/prettier */
 import { Document } from 'mongoose';
+import { Order } from './order';
+import { User } from './user';
 
 export interface Invoice extends Document {
   totalOfInvoice: number;
@@ -7,6 +9,8 @@ export interface Invoice extends Document {
   withCoupon: boolean;
   couponName:string;
   withDiscount: number;
-  order: string;
-  user: string;
+  order: Order;
+  sequenceId: string;
+  createDate: Date;
+  user: User;
 }

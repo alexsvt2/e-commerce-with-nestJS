@@ -3,8 +3,10 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { CategoryService } from 'src/category/category.service';
 import { NotifymeService } from 'src/notifyme/notifyme.service';
 import { SettingsService } from 'src/settings/settings.service';
+import { QoyoudService } from 'src/shared/qoyoud.service';
 import { FilesService } from 'src/shared/uploadFile.service';
 import { UserService } from 'src/shared/user.service';
 import { product } from 'src/types/product';
@@ -18,7 +20,9 @@ export class ProductService {
     private uploadfileService: FilesService,
     private settingsService: SettingsService,
     private notifyMeService: NotifymeService,
-    private userSerivce: UserService
+    private userSerivce: UserService,
+    private categoryService: CategoryService,
+    private qoyoudService: QoyoudService
   ) {}
 
   async findAllList() {
@@ -159,10 +163,31 @@ export class ProductService {
     if(!productDTO.variants) {
       productDTO.variants = []
     }
+
+    if(!productDTO.serialNumber) {
+    	// generate new SKU
+      const orderCount = await this.productModel.countDocuments({});
+      let newSequenceId;
+      if (orderCount == 0) {
+        newSequenceId = (orderCount + 1 + "").padStart(4, "0");
+      }else {
+        const lastOrder = await this.productModel.find().sort({_id:-1}).limit(1)
+        const lastOrderSequenceId = parseInt(lastOrder[0].serialNumber.replace("#", ""))
+        newSequenceId = (lastOrderSequenceId + 1 + "").padStart(4, "0");
+      }
+
+      productDTO.serialNumber = newSequenceId;
+    }
+
+
+    const qoyoudCategoryId = await this.categoryService.getById(productDTO.category[0])
+    const qoyoudId = await this.qoyoudService.createProduct(productDTO, qoyoudCategoryId.qoyoudId)
+    productDTO.qoyoudId = qoyoudId.id
     const product = await this.productModel.create({
       ...productDTO,
     });
     await product.save();
+    
     return product.populate('category');
   }
 
@@ -240,4 +265,25 @@ export class ProductService {
     totalWithTax = total + calculatedTax;
     return { total, totalWithTax };
   }
+
+  // async insertToQoyoud() {
+  //   const products = await this.productModel.find()
+
+  //   products.map(async product =>{
+      
+  //     if(product.category[0]){
+  //       this.categoryService.getById(product.category[0]).then(category =>{
+   
+         
+  //      this.qoyoudService.createProduct(product , category.qoyoudId).then(result =>{
+  //        product.qoyoudId = result.id
+  //        product.save()
+  //      });
+  //     })
+  //     }
+ 
+     
+  //   })
+  //   return true
+  // }
 }

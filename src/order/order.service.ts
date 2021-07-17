@@ -8,17 +8,30 @@ import { InvoiceDto } from '../invoice/invoice.dto';
 import { cartProduct } from 'src/types/cart';
 import { product } from 'src/types/product';
 import { UserService } from 'src/shared/user.service';
+import { MailService } from 'src/mail/mail.service';
+import { Invoice } from 'src/types/invoice';
+import { QoyoudService } from 'src/shared/qoyoud.service';
 
 @Injectable()
 export class OrderService {
   constructor(
     @InjectModel('Orders') private orderModel: Model<Order>,
     @InjectModel('Product') private productModel: Model<product>,
+    //@InjectModel('Invoice') private invoiceModel: Model<Invoice>,
     private userService: UserService,
     private httpService: HttpService,
     private invoiceService: InvoiceService,
+    private mailService: MailService,
+    private qoyoudService: QoyoudService
   ) {}
 
+  async temp(invoice: string , order: string) {
+    const ord = await this.orderModel.find().populate("products.productId")
+
+    const inv = await this.invoiceService.findById(ord[50].invoice)
+     
+    return await this.mailService.sendInvoice(inv, ord[50])
+  }
   async create(
     orderDto: OrderDto,
     userId: string,
@@ -41,6 +54,8 @@ export class OrderService {
 
     // calculate and create  invoice
     let invoiceDto = new InvoiceDto();
+    let newSeq = await this.invoiceService.createNewSeq()
+  
 
     invoiceDto = {
       totalOfInvoice: amount,
@@ -50,14 +65,32 @@ export class OrderService {
       withCoupon: coupon,
       couponName: couponName,
       withDiscount: discount,
+      sequenceId:newSeq
     };
-    console.log(invoiceDto)
+    
     const invoice = await this.invoiceService.create(invoiceDto);
 
     // save the invoice id at order obj
     order.invoice = invoice._id;
     await order.save();
+    await invoice.populate("user").execPopulate();
+    
+    let QoyoudUserId
+    //check if this user regestered in qoyoud or not
+    if(!invoice.user.qoyoudId) {
+      this.qoyoudService.createContact(invoice.user.fullName , invoice.user.email).then(result =>{
+        QoyoudUserId = result.id
+        invoice.user.save()
+      })
+  
+    } else{
+      QoyoudUserId = invoice.user.qoyoudId
+    }
 
+    await this.qoyoudService.createInvoice(QoyoudUserId , newSeq , invoice , order)
+
+
+    await this.mailService.sendInvoice(invoice, order)
 
     // claculate the new qty of each product
     await this.calculateNewQtyOfProducts(orderDto.products);
@@ -66,7 +99,6 @@ export class OrderService {
   }
 
   async calcuuulate(orderId:string) {
-    console.log('dddd')
     const order = await this.orderModel.findById(orderId)
     //calculate orginal price 
     for (let i =0 ; i< order.products.length ; i++) {
@@ -173,7 +205,7 @@ export class OrderService {
     );
 
     const orderGet = await this.orderModel.findById(id).populate('user')
-    let userToken:any[] 
+    let userToken:any[] = []
       userToken.push(orderGet.user)
       
     await this.userService.sendNotifications("Order Status " , `your ourder now is ${status}` 

@@ -42,6 +42,10 @@ export class ProductController {
     return await this.productService.findAllList();
   }
 
+  // @Get('/insertProducts')
+  // async unsertToQoyoud() {
+  //   return await this.productService.insertToQoyoud()
+  // }
   @Get('/getByCategory/:id')
   async getProductByCategoryId(@Param('id') id: string, @Query() query: any) {
     const { perPage, page } = query;

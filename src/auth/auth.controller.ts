@@ -19,6 +19,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { Address } from 'src/types/user';
 import { request } from 'request';
 import { Request } from '@nestjs/common';
+import { QoyoudService } from 'src/shared/qoyoud.service';
 
 @ApiTags('signUp-signIn')
 @Controller('auth')
@@ -26,7 +27,9 @@ export class AuthController {
   constructor(
     private userService: UserService,
     private authService: AuthService,
+    private qoyiudService: QoyoudService
   ) {}
+
 
   @Post('login')
   async login(@Body() userDTO: LoginDTO) {
@@ -54,6 +57,12 @@ export class AuthController {
   @UseGuards(AuthGuard('jwt'))
   async addNewAddress(@Body() address: Address, @Request() req) {
     return await this.userService.addNewAddress(address, req.user._id);
+  }
+
+  @Put('/addNewMobileToken')
+  @UseGuards(AuthGuard('jwt'))
+  async addNewMobileToken(@Body() mobileToken: string, @Request() req) {
+    return await this.userService.addUserMobileToken(mobileToken, req.user._id);
   }
 
   @Get('/getUserProfile')
@@ -92,15 +101,15 @@ export class AuthController {
 
   @Post('/sendToAllUsersNotifications')
   async sendNotifications(@Body() body:any) {
-    let tokens:string[];
+    let tokens:string[] = [];
     const users = await this.userService.findAllusersWithoutPages();
-
-    users.map(user =>{
+  
+    users.forEach(user =>{
       if(user.mobileToken){
         tokens.push(user.mobileToken)
       }
     })
-
+    
     return await this.userService.sendNotifications(body.title , body.body , tokens)
   }
 
