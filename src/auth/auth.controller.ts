@@ -60,9 +60,10 @@ export class AuthController {
   }
 
   @Put('/addNewMobileToken')
-  @UseGuards(AuthGuard('jwt'))
-  async addNewMobileToken(@Body() mobileToken: string, @Request() req) {
-    return await this.userService.addUserMobileToken(mobileToken, req.user._id);
+  //@UseGuards(AuthGuard('jwt'))
+  async addNewMobileToken(@Body() mobileToken: any, @Request() req) {
+    
+    return await this.userService.addUserMobileToken(mobileToken.mobileToken, '609af645d808b0d8b4eae6ec');
   }
 
   @Get('/getUserProfile')
