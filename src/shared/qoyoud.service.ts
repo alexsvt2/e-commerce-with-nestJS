@@ -52,8 +52,8 @@ export class QoyoudService {
             "invoice": {
                 "contact_id": contact_id,
                 "reference": reference,
-                "issue_date": `${datetime.format(new Date(invoice.createDate), "YYYY-MM-DD hh:mm A")}`,
-                "due_date": `${datetime.format(new Date(invoice.createDate), "YYYY-MM-DD hh:mm A")}`,
+                "issue_date": this.convert(invoice.createDate),
+                "due_date":  this.convert(invoice.createDate),
                 "status": "Approved",
                 "inventory_id": 1,
                 "line_items":items
@@ -111,4 +111,11 @@ export class QoyoudService {
         const result = await this.httpService.post('https://www.qoyod.com/api/2.0/products/',data,config).toPromise()
         return result.data.product
     }
+
+    
+  async convert(newDate){
+    let current_datetime = new Date(newDate)
+    let formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds();
+    return formatted_date;
+  }
 }
