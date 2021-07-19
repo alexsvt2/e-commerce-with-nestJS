@@ -61,7 +61,6 @@ export class UserService {
       return user;
     } else {
       const isMatch = await bcrypt.compare(password, user.password);
-      console.log(isMatch)
       throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
     }
   }
@@ -113,7 +112,6 @@ export class UserService {
 
   if (newPassword == confirmNewPaassword) {
       const user = await this.userModel.findOne({ email: email });
-      console.log(user)
       if (user != null) {
         try {
           const salt = await bcrypt.genSalt();
@@ -124,7 +122,6 @@ export class UserService {
             async (error, hash) => {
               if (error) return error;
               user.password = newPassword
-              console.log(user.password)
 
              
               return await user.save()
@@ -168,7 +165,7 @@ export class UserService {
 
   // Push notifications 
   async sendNotifications (messgaeTitle:string,messgaeBody:string , mobileToken:string[]) {
-    if(mobileToken.length !== 0){
+    if(mobileToken.length !== 1 ){
     mobileToken.forEach(element =>{
       const message ={
         notification:{
@@ -185,6 +182,22 @@ export class UserService {
         console.log(error)
       })
     })
+    }
+    else if(mobileToken.length === 1) {
+      const message ={
+        notification:{
+          title: messgaeTitle,
+          body: messgaeBody
+        } , 
+        token : mobileToken[0]
+      }
+  
+      admin.messaging().send(message).then((res) =>{
+        console.log(res)
+      })
+      .catch(error =>{
+        console.log(error)
+      })
     }
     else{
       return {

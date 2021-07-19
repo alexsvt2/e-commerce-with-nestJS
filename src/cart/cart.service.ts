@@ -15,7 +15,6 @@ export class CartService {
     if (userCart) {
      userCart.products.push(cartDto);
       await userCart.save();
-      console.log(userCart)
 
       return userCart;
     } else {
@@ -25,7 +24,6 @@ export class CartService {
       };
       const cart = await this.cartModel.create({...createCart});
       await cart.save()
-      console.log(cart)
 
       return cart;
     }

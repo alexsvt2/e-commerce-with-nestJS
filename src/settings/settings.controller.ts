@@ -10,7 +10,6 @@ export class SettingsController {
 
   @Post()
   async create(@Body() settingDto: SettingsDto) {
-    console.log(settingDto)
     return await this.settingService.create(settingDto);
   }
 

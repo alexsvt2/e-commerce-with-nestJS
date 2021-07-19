@@ -18,7 +18,6 @@ export class FilesService {
         })
             .promise();
 
-            console.log(uploadResult)
         return uploadResult;
     }
 

@@ -23,19 +23,36 @@ export class MailService {
     });
   }
 
+
+  async sendNotfyToAdmin(product: string , variant?: string) {
+    
+  
+    await this.mailerService.sendMail({
+      to: 'commaa.dev@gmail.com',
+       from: 'info@commaa.com.sa', // override default from
+      subject: 'Product Qty is low',
+      template: './qtyNotfy', // `.hbs` extension is appended automatically
+      context: { // ✏️ filling curly brackets with content
+        product: product,
+        variant: variant
+      },
+    });
+  }
+
+
   async sendInvoice(invoice: Invoice , order:Order){
 
     let createdAt =  await this.convert(invoice.createDate)
     let productsArr:any[] = []
-
     order.products.map(prod =>{
+
       let prodDetails = {
-        "name": prod.productId.productName.ar,
+        "name": prod.orginalProduct.productName.ar,
         "quantity": prod.qtyOfProduct,
-        "description": prod.productId.description.ar,
+        "description": prod.orginalProduct.description.ar,
         "tax": 15,
-        "price": prod.productId.price,
-        "total": prod.productId.price * prod.qtyOfProduct
+        "price": prod.orginalProduct.price,
+        "total": prod.orginalProduct.price * prod.qtyOfProduct
     }
     productsArr.push(prodDetails)
     })

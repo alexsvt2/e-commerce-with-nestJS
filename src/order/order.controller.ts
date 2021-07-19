@@ -42,16 +42,10 @@ export class OrderController {
   @Post('/calll')
   //@UseGuards(AuthGuard('jwt') , AdminGuard)
   async Callll(@Body('id') id:string) {
-    console.log('dddd')
     return await this.orderService.calcuuulate(id);
   }
 
-  @Post('/temp')
-  //@UseGuards(AuthGuard('jwt') , AdminGuard)
-  async temp(@Body('id') id:string,@Body('idInv') idInv:string) {
-    console.log('dddd')
-    return await this.orderService.temp(id,idInv);
-  }
+ 
 
   @Post('/verfyCharge/:orderId')
   async verfyCharge(@Body() body,@Param('orderId') orderId: string) {
@@ -68,7 +62,7 @@ export class OrderController {
     
     return await this.orderService.create(
       orderDto,
-      req.user._id,
+     req.user._id, //req.user._id,
       orderDto.amount,
       orderDto.amountWithTax,
       orderDto.coupon,

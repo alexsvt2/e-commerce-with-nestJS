@@ -90,7 +90,7 @@ export class OrderService {
     await this.qoyoudService.createInvoice(QoyoudUserId , newSeq , invoice , order)
 
 
-   // await this.mailService.sendInvoice(invoice, order)
+    await this.mailService.sendInvoice(invoice, order)
 
     // claculate the new qty of each product
     await this.calculateNewQtyOfProducts(orderDto.products);
@@ -110,14 +110,14 @@ export class OrderService {
   }
   async calculateNewQtyOfProducts(products: cartProduct[]) {
     for (let i = 0; i < products.length; i++) {
+      let product ;
       // get the qty of each product
       let productQty = await this.productModel.findById(products[i].productId);
 
       if(productQty.variants.length === 0 ){
-        console.log(productQty.variants.length)
      
   
-        let product = await this.productModel.updateOne(
+         product = await this.productModel.findOneAndUpdate(
           {
             _id: products[i].productId
           },
@@ -127,16 +127,19 @@ export class OrderService {
             },
           },
         );
-        //  product.qty = product.qty - products[i].qtyOfProduct;
+        if(product.qty === 0){
+          this.mailService.sendNotfyToAdmin(product.productName.en,"All Variants")
+          }
+        // product.qty = product.qty - products[i].qtyOfProduct;
       }else{
         let q1 = productQty.variants;
-
+       
         let varQty = q1.find(x => String(x._id) === products[i].variantIdOfProduct)
-  
+       
   
   //console.log(typeof products[i].variantIdOfProduct)
   
-        let product = await this.productModel.updateOne(
+         product = await this.productModel.findOneAndUpdate(
           {
             _id: products[i].productId,
             'variants._id': products[i].variantIdOfProduct,
@@ -146,12 +149,25 @@ export class OrderService {
               qty: productQty.qty - products[i].qtyOfProduct,
               'variants.$.qty':varQty.qty - products[i].qtyOfProduct
             },
-          },
+          },{new:true}
         );
+        
+        if(product.qty === 0){
+        this.mailService.sendNotfyToAdmin(product.productName.en,"All Variants")
+        }
+        else {
+          let updatedVariant = product.variants.find(x => x.qty === 0)
+          if(updatedVariant)
+          this.mailService.sendNotfyToAdmin(product.productName.en,"Please update this product qty")
+        }
       }
   
       //  product.qty = product.qty - products[i].qtyOfProduct;
+
+     
     }
+
+
   }
 
   async getOrders(page = 1, perPage = 10, query: any) {
@@ -207,9 +223,9 @@ export class OrderService {
     const orderGet = await this.orderModel.findById(id).populate('user')
     let userToken:any[] = []
       userToken.push(orderGet.user)
-      
+      console.log(userToken[0].mobileToken)
     await this.userService.sendNotifications("Order Status " , `your ourder now is ${status}` 
-    , userToken[0].mobileToken)
+    , [userToken[0].mobileToken])
 
     return order;
   }

@@ -8,7 +8,7 @@ export class cartProduct {
   productId: product;
   qtyOfProduct: number;
   variantIdOfProduct: string;
-  orginalProduct?:object;
+  orginalProduct?:product;
   variant: cartVariant;
 }
 
