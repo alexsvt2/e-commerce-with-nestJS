@@ -197,7 +197,7 @@ export class ProductService {
     // check if this product at the list of notify me
     if(product.qty === 0){
       if(productDTO.qty){
-       const listOfProductWantNotify = await  this.notifyMeService.getByProductId(id)
+       const listOfProductWantNotify = await this.notifyMeService.getByProductId(id)
        let tokensArray: string[] = []
        listOfProductWantNotify.forEach(element =>{
         tokensArray.push(element.user.mobileToken)
@@ -206,6 +206,8 @@ export class ProductService {
        if(tokensArray.length !== 0 ) {
          await this.userSerivce.sendNotifications("It's Available now !",`${product.productName.en} it's available now :)`,tokensArray)
        }
+       // delete all users after send notifications
+       await this.notifyMeService.deleteAll(id)
 
       }
     }

@@ -47,7 +47,7 @@ export class OrderService {
 
     //calculate orginal price 
     for (let i =0 ; i< orderDto.products.length ; i++) {
-      order.products[i].orginalProduct = await this.productModel.findById(order.products[i].productId )
+      order.products[i].orginalProduct = await this.productModel.findById(orderDto.products[i].productId )
    
     }
     await order.save();
@@ -88,9 +88,8 @@ export class OrderService {
     }
 
     await this.qoyoudService.createInvoice(QoyoudUserId , newSeq , invoice , order)
-
-
-    await this.mailService.sendInvoice(invoice, order)
+    
+    //await this.mailService.sendInvoice(invoice, order)
 
     // claculate the new qty of each product
     await this.calculateNewQtyOfProducts(orderDto.products);

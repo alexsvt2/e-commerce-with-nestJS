@@ -10,10 +10,10 @@ export class NotifymeController {
 
     @Post()
     @UseGuards(AuthGuard('jwt'))
-    async create(@Body() product: string, @Request() req) {
+    async create(@Body() product: any, @Request() req) {
         let notifyDto: NotifyMeDto = {
             user: req.user._id,
-            product: product
+            product: product.product
         }
       return this.notifyMeService.create(notifyDto);
     }

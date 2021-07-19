@@ -36,8 +36,8 @@ import { NotifymeModule } from './notifyme/notifyme.module';
       }),
     }),
     MongooseModule.forRoot(
-     "mongodb+srv://admin:admin@cluster0.4ieuw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-     //"mongodb+srv://root:admin@cluster0.ukkav.mongodb.net/commaa-prod?retryWrites=true&w=majority"
+     //"mongodb+srv://admin:admin@cluster0.4ieuw.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+     "mongodb+srv://root:admin@cluster0.ukkav.mongodb.net/commaa-prod?retryWrites=true&w=majority"
 ,
     ),
     SharedModule,

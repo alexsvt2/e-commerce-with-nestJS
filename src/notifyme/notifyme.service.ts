@@ -19,12 +19,18 @@ export class NotifymeService {
       }
 
       async getByProductId(productId : string) {
-          const user = await this.notifyModel.find({'product': productId})
+          const user = await this.notifyModel.find({'product': productId}).populate('user')
           if(user){
             return user
           } else {
             return null
           }
+      }
+      async deleteAll(productId : string) {
+        const users = await this.notifyModel.find({'product': productId})
+        users.map(async user =>{
+          await this.notifyModel.findOneAndDelete({'product': productId , 'user': user._id})
+        })
       }
       }
 
