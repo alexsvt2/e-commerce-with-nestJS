@@ -44,7 +44,7 @@ export class OrderService {
     orderDto.user = userId;
     // add this order to DB and save
     const order = await this.orderModel.create({ ...orderDto });
-
+    const userSelected = await this.userService.getUserProfile(userId)
     //calculate orginal price 
     for (let i =0 ; i< orderDto.products.length ; i++) {
       order.products[i].orginalProduct = await this.productModel.findById(orderDto.products[i].productId )
@@ -78,14 +78,14 @@ export class OrderService {
     
     let QoyoudUserId
     //check if this user regestered in qoyoud or not
-    if(!invoice.user.qoyoudId) {
-      this.qoyoudService.createContact(invoice.user.fullName , invoice.user.email).then(result =>{
+    if(!userSelected.qoyoudId) {
+      this.qoyoudService.createContact(userSelected.fullName , userSelected.email).then(result =>{
         QoyoudUserId = result.id
-        invoice.user.save()
+        userSelected.save()
       })
   
     } else{
-      QoyoudUserId = invoice.user.qoyoudId
+      QoyoudUserId = userSelected.qoyoudId
     }
 
     await this.qoyoudService.createInvoice(QoyoudUserId , newSeq , invoice , order)

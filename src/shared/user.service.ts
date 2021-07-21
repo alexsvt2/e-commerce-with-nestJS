@@ -159,6 +159,13 @@ export class UserService {
   async addUserMobileToken(mobileToken : string , userId:string) {
     const user = await this.userModel.findById(userId);
     user.mobileToken = mobileToken ; 
+    if(!user.qoyoudId) {
+      this.qoyoudService.createContact(user.fullName , user.email).then(result =>{
+        user.qoyoudId = result.id
+      
+      })
+  
+    }
     await user.save()
     return user
   }
