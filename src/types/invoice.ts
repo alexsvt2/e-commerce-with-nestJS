@@ -13,4 +13,5 @@ export interface Invoice extends Document {
   sequenceId: string;
   createDate: Date;
   user: User;
+  isGift: boolean;
 }

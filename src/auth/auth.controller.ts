@@ -81,6 +81,14 @@ export class AuthController {
     return users;
   }
 
+  @Get('getUsersExport')
+  @UseGuards(AuthGuard('jwt'), AdminGuard)
+  async getUsersExport() {
+    
+    return await this.userService.findAllusersWithoutPages();
+    
+  }
+
   @Post('/sendOtp')
   async sendOtp(@Body('email') email:string) {
     return await this.authService.resetPassword(email) ; 

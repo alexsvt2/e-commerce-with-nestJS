@@ -16,6 +16,8 @@ export class OrderDto {
   @ApiProperty()
   shippingMethod: string;
   @ApiProperty()
+  isGift: boolean;
+  @ApiProperty()
   status: string;
   updateStatusDate:Date;
   @ApiProperty()

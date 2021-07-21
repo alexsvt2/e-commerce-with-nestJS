@@ -22,7 +22,7 @@ export class SettingsService {
       settings[0].vat = settingsDto.vat;
       settings[0].version = settingsDto.version;
       settings[0].cod = settingsDto.cod;
-
+      settings[0].giftPrice = settingsDto.giftPrice;
     }
     await settings[0].save();
     return settings[0]

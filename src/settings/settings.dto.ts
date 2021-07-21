@@ -8,4 +8,6 @@ export class SettingsDto {
   version:Version;
   @ApiProperty()
   cod:number
+  @ApiProperty()
+  giftPrice:number
 }

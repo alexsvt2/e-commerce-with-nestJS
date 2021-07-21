@@ -10,6 +10,7 @@ export const orderSchema = new mongoose.Schema({
   },
   invoice: { type: mongoose.Schema.Types.ObjectId, ref: 'Invoices' },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  isGift: {type: Boolean , default: false},
   products: [
     {
       productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },

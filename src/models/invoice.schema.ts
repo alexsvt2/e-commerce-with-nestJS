@@ -6,6 +6,7 @@ export const invoiceSchema = new mongoose.Schema({
   withCoupon: { type: Boolean, default: false },
   couponName: { type: String },
   withDiscount: { type: Number },
+  isGift: {type:Boolean, default: false},
   order: { type: mongoose.Schema.Types.ObjectId, ref: 'Orders' },
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   sequenceId : String,

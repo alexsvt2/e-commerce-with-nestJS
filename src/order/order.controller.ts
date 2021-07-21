@@ -26,6 +26,15 @@ export class OrderController {
     return await this.orderService.getOrders(page, perPage, restQuery);
   }
 
+
+  @Get('/exportOrders')
+  @UseGuards(AuthGuard('jwt') , AdminGuard)
+  async getAllOrdersForExport() {
+    
+    return await this.orderService.getAllOrdersForExport();
+  }
+
+
   @Get('/user')
   @UseGuards(AuthGuard('jwt') )
   async getAllUserOrders(@Query() query: any , @Request() req) {

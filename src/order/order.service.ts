@@ -65,7 +65,8 @@ export class OrderService {
       withCoupon: coupon,
       couponName: couponName,
       withDiscount: discount,
-      sequenceId:newSeq
+      sequenceId:newSeq,
+      isGift: orderDto.isGift
     };
     
     const invoice = await this.invoiceService.create(invoiceDto);
@@ -229,7 +230,14 @@ export class OrderService {
     return order;
   }
 
- 
+ async getAllOrdersForExport() {
+  const orders = await this.orderModel
+  .find()
+  .populate('user invoice products.productId shippingMethod')
+  .sort({ createDate: -1 });
+
+  return orders
+ }
   
   async verfyChargePayment(data:string , orderId: string) {
 

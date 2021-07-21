@@ -15,6 +15,7 @@ export class InvoiceDto {
   withCoupon: boolean;
   @ApiProperty()
   withDiscount: number;
+  isGift: boolean;
   @ApiProperty()
   couponName:string;
   sequenceId: string;

@@ -8,6 +8,7 @@ export interface Order extends Document {
   address: Address;
   invoice: string;
   paymentMethod: string;
+  isGift: boolean;
   status: string;
   shippingMethod: string;
   updateStatusDate:Date;

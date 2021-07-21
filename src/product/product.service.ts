@@ -26,7 +26,12 @@ export class ProductService {
   ) {}
 
   async findAllList() {
-    return await this.productModel.find();
+    const products =  await this.productModel.find().populate('category brand fashionModel')
+    .populate('variants.variants.variantId')
+    .sort({ createDate: -1 });
+
+    return products;
+
   }
   async findAll(page: number = 1, perPage: number = 10, query: any) {
     const pageNo = Number(page);
