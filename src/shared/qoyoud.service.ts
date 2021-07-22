@@ -32,17 +32,17 @@ export class QoyoudService {
         return result.data.contact
     }
 
-    async createInvoice(contact_id: number ,reference:string,invoice: Invoice, order:Order) {
+    async createInvoice(contact_id: any ,reference:string,invoice: Invoice, order:Order) {
 
         let items:any[] = []
-
         order.products.forEach(product =>{
             let prod = 
                 {
-                    "product_id": product.productId.qoyoudId,
+                    "product_id": parseInt(product.orginalProduct.qoyoudId),
                     "quantity": product.qtyOfProduct,
-                    "unit_price":product.productId.price,
-                    "discount": invoice.withDiscount
+                    "unit_price":product.orginalProduct.price,
+                    "discount": invoice.withDiscount,
+                    "discount_type": "percentage",
                   }
                   items.push(prod)
             
@@ -50,7 +50,7 @@ export class QoyoudService {
         
         var data = {
             "invoice": {
-                "contact_id": contact_id,
+                "contact_id": parseInt(contact_id),
                 "reference": reference,
                 "issue_date": this.convert(invoice.createDate),
                 "due_date":  this.convert(invoice.createDate),
@@ -66,7 +66,10 @@ export class QoyoudService {
               'Content-Type': 'application/json'
             }
           };
-         const result = await this.httpService.post("https://www.qoyod.com/api/2.0/invoices",data,config)
+          console.log(JSON.stringify(data))
+         const result = await this.httpService.post("https://www.qoyod.com/api/2.0/invoices",data,config).toPromise()
+        console.log(result)
+
          return result
     }
 
@@ -116,7 +119,7 @@ export class QoyoudService {
     }
 
     
-  async convert(newDate){
+   convert(newDate){
     let current_datetime = new Date(newDate)
     let formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate();
     return formatted_date;

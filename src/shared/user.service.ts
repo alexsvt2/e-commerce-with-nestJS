@@ -161,7 +161,7 @@ export class UserService {
     user.mobileToken = mobileToken ; 
     if(!user.qoyoudId) {
       this.qoyoudService.createContact(user.fullName , user.email).then(result =>{
-        user.qoyoudId = result.id
+        user.qoyoudId = result
       
       })
   
