@@ -88,6 +88,9 @@ export class QoyoudService {
     }
 
     async createProduct(product: CreateProductDTO , categoryId:string) {
+      if(!categoryId){
+        categoryId = "34"
+      }
         var data = {
             "product": {
                 "sku": product.serialNumber,
