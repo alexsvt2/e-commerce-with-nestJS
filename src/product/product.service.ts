@@ -185,9 +185,8 @@ export class ProductService {
 
 
     const qoyoudCategoryId = await this.categoryService.getById(productDTO.category[0])
-    // const qoyoudId = await this.qoyoudService.createProduct(productDTO, qoyoudCategoryId.qoyoudId)
-    // productDTO.qoyoudId = qoyoudId.id
-    productDTO.qoyoudId = null
+    const qoyoudId = await this.qoyoudService.createProduct(productDTO, qoyoudCategoryId.qoyoudId)
+    productDTO.qoyoudId = qoyoudId.id
     const product = await this.productModel.create({
       ...productDTO,
     });

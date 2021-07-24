@@ -114,6 +114,7 @@ export class QoyoudService {
               'Content-Type': 'application/json'
             }
           };
+          console.log(data)
         const result = await this.httpService.post('https://www.qoyod.com/api/2.0/products/',data,config).toPromise()
         return result.data.product
     }
