@@ -54,6 +54,7 @@ export class WishlistService {
   const deleteFromWishList = wishlist.products.filter(x => x !== productId);
 
   wishlist.products = deleteFromWishList ; 
-  return await wishlist.save()
+  await wishlist.save()
+  return wishlist
   }
 }
