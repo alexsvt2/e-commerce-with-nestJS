@@ -48,13 +48,12 @@ export class WishlistService {
 
   async deleteOne(userId: string, productId:string) {
     const wishlist = await this.wishlistModel
-      .findOne({ user: userId })
-      .populate('products');
-
-  const deleteFromWishList = wishlist.products.filter(x => x !== productId);
+      .findOne({ user: userId });
+  const deleteFromWishList = wishlist.products.filter(x => x.toString() !== productId);
 
   wishlist.products = deleteFromWishList ; 
   await wishlist.save()
-  return wishlist
+  return await this.wishlistModel
+  .findOne({ user: userId }).populate('products');
   }
 }
