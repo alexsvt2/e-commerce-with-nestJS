@@ -26,8 +26,9 @@ export class UserService {
 
     userDTO.email.toLowerCase();
     userDTO.isGuest = false;
-   const qoyoudId = await this.qoyoudService.createContact(userDTO.fullName , userDTO.email)
-   userDTO.qoyoudId = qoyoudId.id
+  //  const qoyoudId = await this.qoyoudService.createContact(userDTO.fullName , userDTO.email)
+  //  userDTO.qoyoudId = qoyoudId.id
+    userDTO.qoyoudId = null
     const createdUser = new this.userModel(userDTO);
     await createdUser.save();
     return createdUser;
@@ -159,13 +160,13 @@ export class UserService {
   async addUserMobileToken(mobileToken : string , userId:string) {
     const user = await this.userModel.findById(userId);
     user.mobileToken = mobileToken ; 
-    if(!user.qoyoudId) {
-      this.qoyoudService.createContact(user.fullName , user.email).then(result =>{
-        user.qoyoudId = result
+    // if(!user.qoyoudId) {
+    //   // this.qoyoudService.createContact(user.fullName , user.email).then(result =>{
+    //   //   user.qoyoudId = result
       
-      })
-  
-    }
+    //   // })
+    // }
+    user.qoyoudId = null
     await user.save()
     return user
   }
