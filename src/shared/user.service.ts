@@ -166,7 +166,6 @@ export class UserService {
       
       })
     }
-    user.qoyoudId = null
     await user.save()
     return user
   }
