@@ -90,7 +90,7 @@ export class OrderService {
     } else{
       QoyoudUserId = userSelected.qoyoudId
     }
-    //await this.qoyoudService.createInvoice(QoyoudUserId , newSeq , invoice , order)
+    await this.qoyoudService.createInvoice(QoyoudUserId , newSeq , invoice , order)
     
     //await this.mailService.sendInvoice(invoice, order)
 

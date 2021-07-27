@@ -24,7 +24,7 @@ export class QoyoudService {
           
           var config:AxiosRequestConfig = {
             headers: { 
-              'API-KEY': 'a9ce85e43a35d3ae35ca4bfce', 
+              'API-KEY': '051980ddb04b1f83c0944aa92', 
               'Content-Type': 'application/json'
             }
           };
@@ -62,13 +62,12 @@ export class QoyoudService {
           
           var config:AxiosRequestConfig = {
             headers: { 
-              'API-KEY': 'a9ce85e43a35d3ae35ca4bfce', 
+              'API-KEY': '051980ddb04b1f83c0944aa92', 
               'Content-Type': 'application/json'
             }
           };
           console.log(JSON.stringify(data))
          const result = await this.httpService.post("https://www.qoyod.com/api/2.0/invoices",data,config).toPromise()
-        console.log(result)
 
          return result
     }
@@ -82,7 +81,7 @@ export class QoyoudService {
           
           var config:AxiosRequestConfig = {
             headers: { 
-              'API-KEY': 'a9ce85e43a35d3ae35ca4bfce', 
+              'API-KEY': '051980ddb04b1f83c0944aa92', 
               'Content-Type': 'application/json'
             }
           };
@@ -90,13 +89,13 @@ export class QoyoudService {
           return result.data.category
     }
 
-    async createProduct(product: CreateProductDTO , categoryId:string) {
+    async createProduct(product: CreateProductDTO , categoryId:string,newSequenceId:string) {
       if(!categoryId){
         categoryId = "34"
       }
         var data = {
             "product": {
-                "sku": product.serialNumber,
+                "sku": newSequenceId,
                 "name_ar":product.productName.ar,
                 "name_en": product.productName.en,
                 "product_unit_type_id": "6",
@@ -110,7 +109,7 @@ export class QoyoudService {
           
           var config:AxiosRequestConfig = {
             headers: { 
-              'API-KEY': 'a9ce85e43a35d3ae35ca4bfce', 
+              'API-KEY': '051980ddb04b1f83c0944aa92', 
               'Content-Type': 'application/json'
             }
           };

@@ -168,26 +168,28 @@ export class ProductService {
       productDTO.variants = []
     }
 
-    if(!productDTO.serialNumber) {
+    let newSequenceId;
+    
     	// generate new SKU
       const orderCount = await this.productModel.countDocuments({});
-      let newSequenceId;
+    
       if (orderCount == 0) {
-        newSequenceId = (orderCount + 1 + "").padStart(4, "0");
+        newSequenceId = (orderCount + 1 + "").padStart(6, "0");
       }else {
         const lastOrder = await this.productModel.find().sort({_id:-1}).limit(1)
         const lastOrderSequenceId = parseInt(lastOrder[0].serialNumber.replace("#", ""))
-        newSequenceId = (lastOrderSequenceId + 1 + "").padStart(4, "0");
+        newSequenceId = (lastOrderSequenceId + 1 + "").padStart(6, "0");
       }
+      if(!productDTO.serialNumber){
+        productDTO.serialNumber = newSequenceId;
+      }
+   
 
-      productDTO.serialNumber = newSequenceId;
-    }
 
+    const qoyoudCategoryId = await this.categoryService.getById(productDTO.category[0])
+    const qoyoudId = await this.qoyoudService.createProduct(productDTO, qoyoudCategoryId.qoyoudId,newSequenceId)
+    productDTO.qoyoudId = qoyoudId.id
 
-    // const qoyoudCategoryId = await this.categoryService.getById(productDTO.category[0])
-    // const qoyoudId = await this.qoyoudService.createProduct(productDTO, qoyoudCategoryId.qoyoudId)
-    // productDTO.qoyoudId = qoyoudId.id
-    productDTO.qoyoudId = null
     const product = await this.productModel.create({
       ...productDTO,
     });
@@ -227,6 +229,32 @@ export class ProductService {
 
     await product.remove();
     return product.populate('owner');
+  }
+
+  async postProductToQoyoud(productId:string) {
+    const product = await this.productModel.findById(productId)
+    if(product){
+      let newSequenceId;
+    
+    	// generate new SKU
+      const orderCount = await this.productModel.countDocuments({});
+    
+      if (orderCount == 0) {
+        newSequenceId = (orderCount + 1 + "").padStart(6, "0");
+      }else {
+        const lastOrder = await this.productModel.find().sort({_id:-1}).limit(1)
+        const lastOrderSequenceId = parseInt(lastOrder[0].serialNumber.replace("#", ""))
+        newSequenceId = (lastOrderSequenceId + 1 + "").padStart(6, "0");
+      }
+      const qoyoudCategoryId = await this.categoryService.getById(product.category[0])
+    const qoyoudId = await this.qoyoudService.createProduct(product, qoyoudCategoryId.qoyoudId,newSequenceId)
+    product.qoyoudId = qoyoudId.id
+    await product.save()
+    return product
+    }
+    else{
+      return false
+    }
   }
 
   async deleteImage(params: any, key: string) {
