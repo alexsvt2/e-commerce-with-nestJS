@@ -82,8 +82,8 @@ export class OrderService {
       console.log("user")
       this.qoyoudService.createContact(userSelected.fullName , userSelected.email).then(result =>{
        
-        QoyoudUserId = result
-        userSelected.qoyoudId = result
+        QoyoudUserId = result.id
+        userSelected.qoyoudId = result.id
         userSelected.save()
       })
   
