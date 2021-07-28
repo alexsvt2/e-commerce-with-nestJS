@@ -32,7 +32,7 @@ export class QoyoudService {
         return result.data.contact
     }
 
-    async createInvoice(contact_id: any ,reference:string,invoice: Invoice, order:Order) {
+    async createInvoice(QoyoudUserId: any ,reference:string,invoice: Invoice, order:Order) {
 
         let items:any[] = []
         order.products.forEach(product =>{
@@ -50,7 +50,7 @@ export class QoyoudService {
         
         var data = {
             "invoice": {
-                "contact_id": parseInt(contact_id),
+                "contact_id": QoyoudUserId,
                 "reference": reference,
                 "issue_date": this.convert(invoice.createDate),
                 "due_date":  this.convert(invoice.createDate),

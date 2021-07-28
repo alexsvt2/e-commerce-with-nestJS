@@ -78,19 +78,23 @@ export class OrderService {
     
     let QoyoudUserId
     //check if this user regestered in qoyoud or not
-    if(!userSelected.qoyoudId) {
+    if(!userSelected.qoyoudId || userSelected.qoyoudId === null) {
       console.log("user")
-      this.qoyoudService.createContact(userSelected.fullName , userSelected.email).then(result =>{
+      this.qoyoudService.createContact(userSelected.fullName , userSelected.email).then(async result =>{
        
         QoyoudUserId = result.id
         userSelected.qoyoudId = result.id
         userSelected.save()
+        console.log(QoyoudUserId)
+        await this.qoyoudService.createInvoice(QoyoudUserId , newSeq , invoice , order)
       })
   
     } else{
       QoyoudUserId = userSelected.qoyoudId
+      console.log(QoyoudUserId)
+      await this.qoyoudService.createInvoice(QoyoudUserId , newSeq , invoice , order)
     }
-    await this.qoyoudService.createInvoice(QoyoudUserId , newSeq , invoice , order)
+   
     
     //await this.mailService.sendInvoice(invoice, order)
 
