@@ -28,7 +28,7 @@ export class UserService {
     userDTO.isGuest = false;
    const qoyoudId = await this.qoyoudService.createContact(userDTO.fullName , userDTO.email)
    userDTO.qoyoudId = qoyoudId.id
-    userDTO.qoyoudId = null
+  
     const createdUser = new this.userModel(userDTO);
     await createdUser.save();
     return createdUser;
