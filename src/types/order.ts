@@ -1,10 +1,10 @@
 /* eslint-disable prettier/prettier */
 import { Document } from 'mongoose';
 import { cartProduct } from './cart';
-import { Address } from './user';
+import { Address, User } from './user';
 
 export interface Order extends Document {
-  user: string;
+  user: User;
   address: Address;
   invoice: string;
   paymentMethod: string;

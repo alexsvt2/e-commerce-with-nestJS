@@ -79,20 +79,17 @@ export class OrderService {
     let QoyoudUserId
     //check if this user regestered in qoyoud or not
     if(!userSelected.qoyoudId || userSelected.qoyoudId === null) {
-      console.log("user")
       this.qoyoudService.createContact(userSelected.fullName , userSelected.email).then(async result =>{
        
         QoyoudUserId = result.id
         userSelected.qoyoudId = result.id
         userSelected.save()
-        console.log(QoyoudUserId)
-        await this.qoyoudService.createInvoice(QoyoudUserId , newSeq , invoice , order)
+        //await this.qoyoudService.createInvoice(QoyoudUserId , newSeq , invoice , order)
       })
   
     } else{
       QoyoudUserId = userSelected.qoyoudId
-      console.log(QoyoudUserId)
-      await this.qoyoudService.createInvoice(QoyoudUserId , newSeq , invoice , order)
+      //await this.qoyoudService.createInvoice(QoyoudUserId , newSeq , invoice , order)
     }
    
     
@@ -203,10 +200,10 @@ export class OrderService {
     };
 
     const orders = await this.orderModel
-      .find({'user':userId})
+      .find({'user._id':userId})
       .populate('user invoice products.productId shippingMethod')
       .sort({ createDate: -1 });
-    const ordersCount = await this.orderModel.count({'user':userId});
+    const ordersCount = await this.orderModel.count({'user._id':userId});
     const totalPages = Math.ceil(ordersCount / size);
     return { orders, totalPages };
   }
@@ -232,6 +229,29 @@ export class OrderService {
       console.log(userToken[0].mobileToken)
     await this.userService.sendNotifications("Order Status " , `your ourder now is ${status}` 
     , [userToken[0].mobileToken])
+
+
+
+      // Qouyoud invoice
+      if(status === "delivered"){
+        let QoyoudUserId;
+        if(!orderGet.user.qoyoudId) {
+          this.qoyoudService.createContact(orderGet.user.fullName , orderGet.user.email).then(async result =>{
+       
+            QoyoudUserId = result.id
+            orderGet.user.qoyoudId = result.id
+            orderGet.user.save()
+            
+            //await this.qoyoudService.createInvoice(QoyoudUserId , newSeq , invoice , order)
+          })
+        } else{
+          QoyoudUserId = orderGet.user.qoyoudId
+        }
+        const invoice = await this.invoiceService.findById(orderGet.invoice)
+        await this.qoyoudService.createInvoice(QoyoudUserId , invoice.sequenceId , invoice , orderGet)
+      }
+
+
 
     return order;
   }
