@@ -200,7 +200,7 @@ export class OrderService {
     };
 
     const orders = await this.orderModel
-      .find({'user._id':userId})
+      .find({'user':userId})
       .populate('user invoice products.productId shippingMethod')
       .sort({ createDate: -1 });
     const ordersCount = await this.orderModel.count({'user._id':userId});
@@ -235,17 +235,18 @@ export class OrderService {
       // Qouyoud invoice
       if(status === "delivered"){
         let QoyoudUserId;
-        if(!orderGet.user.qoyoudId) {
-          this.qoyoudService.createContact(orderGet.user.fullName , orderGet.user.email).then(async result =>{
+        const user = await this.userService.getUserProfile(orderGet.user);
+        if(!user.qoyoudId || user.qoyoudId === null) {
+          this.qoyoudService.createContact(user.fullName , user.email).then(async result =>{
        
             QoyoudUserId = result.id
-            orderGet.user.qoyoudId = result.id
-            orderGet.user.save()
+            user.qoyoudId = result.id
+            user.save()
             
             //await this.qoyoudService.createInvoice(QoyoudUserId , newSeq , invoice , order)
           })
         } else{
-          QoyoudUserId = orderGet.user.qoyoudId
+          QoyoudUserId = user.qoyoudId
         }
         const invoice = await this.invoiceService.findById(orderGet.invoice)
         await this.qoyoudService.createInvoice(QoyoudUserId , invoice.sequenceId , invoice , orderGet)

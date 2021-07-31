@@ -4,7 +4,7 @@ import { cartProduct } from './cart';
 import { Address, User } from './user';
 
 export interface Order extends Document {
-  user: User;
+  user: string;
   address: Address;
   invoice: string;
   paymentMethod: string;
