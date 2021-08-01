@@ -226,9 +226,12 @@ export class OrderService {
     const orderGet = await this.orderModel.findById(id).populate('user')
     let userToken:any[] = []
       userToken.push(orderGet.user)
-      console.log(userToken[0].mobileToken)
-    await this.userService.sendNotifications("Order Status " , `your ourder now is ${status}` 
-    , [userToken[0].mobileToken])
+      if(userToken[0].mobileToken){
+        //console.log(userToken[0].mobileToken)
+        await this.userService.sendNotifications("Order Status " , `your ourder now is ${status}` 
+        , [userToken[0].mobileToken])
+      }
+
 
 
 
