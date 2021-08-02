@@ -42,10 +42,10 @@ export class ProductController {
     return await this.productService.findAllList();
   }
 
-  @Post('/insertProducts')
-  async unsertToQoyoud(@Body('productId') productId:string) {
-    return await this.productService.postProductToQoyoud(productId)
-  }
+  // @Post('/insertProducts')
+  // async unsertToQoyoud(@Body('productId') productId:string) {
+  //   return await this.productService.postProductToQoyoud(productId)
+  // }
   @Get('/getByCategory/:id')
   async getProductByCategoryId(@Param('id') id: string, @Query() query: any) {
     const { perPage, page } = query;

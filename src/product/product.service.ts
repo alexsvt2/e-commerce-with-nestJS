@@ -186,15 +186,15 @@ export class ProductService {
    
 
 
-    const qoyoudCategoryId = await this.categoryService.getById(productDTO.category[0])
-    const qoyoudId = await this.qoyoudService.createProduct(productDTO, qoyoudCategoryId.qoyoudId,newSequenceId)
-    productDTO.qoyoudId = qoyoudId.id
+    // const qoyoudCategoryId = await this.categoryService.getById(productDTO.category[0])
+    // const qoyoudId = await this.qoyoudService.createProduct(productDTO, qoyoudCategoryId.qoyoudId,newSequenceId)
+    // productDTO.qoyoudId = qoyoudId.id
 
     const product = await this.productModel.create({
       ...productDTO,
     });
     await product.save();
-    
+    await this.postProductToQoyoud(product._id,newSequenceId);
     return product.populate('category');
   }
 
@@ -231,21 +231,14 @@ export class ProductService {
     return product.populate('owner');
   }
 
-  async postProductToQoyoud(productId:string) {
+  async postProductToQoyoud(productId:string, newSequenceId: any) {
     const product = await this.productModel.findById(productId)
     if(product){
-      let newSequenceId;
+   
     
     	// generate new SKU
-      const orderCount = await this.productModel.countDocuments({});
+     // const orderCount = await this.productModel.countDocuments({});
     
-      if (orderCount == 0) {
-        newSequenceId = (orderCount + 1 + "").padStart(6, "0");
-      }else {
-        const lastOrder = await this.productModel.find().sort({_id:-1}).limit(1)
-        const lastOrderSequenceId = parseInt(lastOrder[0].serialNumber.replace("#", ""))
-        newSequenceId = (lastOrderSequenceId + 1 + "").padStart(6, "0");
-      }
       const qoyoudCategoryId = await this.categoryService.getById(product.category[0])
     const qoyoudId = await this.qoyoudService.createProduct(product, qoyoudCategoryId.qoyoudId,newSequenceId)
     product.qoyoudId = qoyoudId.id
