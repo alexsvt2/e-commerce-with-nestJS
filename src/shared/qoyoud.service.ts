@@ -40,9 +40,9 @@ export class QoyoudService {
                 {
                     "product_id": parseInt(product.orginalProduct.qoyoudId),
                     "quantity": product.qtyOfProduct,
-                    "unit_price":product.orginalProduct.price,
+                    "unit_price":invoice.totalWithTax,
                     "discount": invoice.withDiscount,
-                    "discount_type": "percentage",
+                    "discount_type": "amount",
                   }
                   items.push(prod)
             
@@ -66,7 +66,6 @@ export class QoyoudService {
               'Content-Type': 'application/json'
             }
           };
-          console.log(JSON.stringify(data))
          const result = await this.httpService.post("https://www.qoyod.com/api/2.0/invoices",data,config).toPromise()
 
          return result
