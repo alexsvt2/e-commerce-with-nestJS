@@ -40,7 +40,7 @@ export class QoyoudService {
                 {
                     "product_id": parseInt(product.orginalProduct.qoyoudId),
                     "quantity": product.qtyOfProduct,
-                    "unit_price":invoice.totalWithTax,
+                    "unit_price":product.orginalProduct.price,
                     "discount": invoice.withDiscount,
                     "discount_type": "amount",
                   }
