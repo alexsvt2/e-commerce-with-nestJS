@@ -96,7 +96,7 @@ export class OrderService {
     //await this.mailService.sendInvoice(invoice, order)
 
     // claculate the new qty of each product
-    await this.calculateNewQtyOfProducts(orderDto.products);
+  //  await this.calculateNewQtyOfProducts(orderDto.products);
     // finish
     return order;
   }
@@ -237,6 +237,7 @@ export class OrderService {
 
       // Qouyoud invoice
       if(status === "delivered"){
+        await this.calculateNewQtyOfProducts(orderGet.products);
         let QoyoudUserId;
         const user = await this.userService.getUserProfile(orderGet.user);
         if(!user.qoyoudId || user.qoyoudId === null) {
