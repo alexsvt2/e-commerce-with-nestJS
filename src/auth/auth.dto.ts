@@ -36,4 +36,4 @@ export class RegisterDTO {
 // other way
 type WithMobile = { password: string; email: string; phoneNumber: never };
 type WithEmail = { password: string; email: string; phoneNumber: never };
-export type LoginDTO = WithEmail | WithMobile;
+export type LoginDTO = WithEmail ;

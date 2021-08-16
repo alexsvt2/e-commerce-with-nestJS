@@ -20,7 +20,7 @@ import { Address } from 'src/types/user';
 import { request } from 'request';
 import { Request } from '@nestjs/common';
 import { QoyoudService } from 'src/shared/qoyoud.service';
-
+import { UnauthorizedException } from '@nestjs/common';
 @ApiTags('signUp-signIn')
 @Controller('auth')
 export class AuthController {
@@ -33,6 +33,8 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() userDTO: LoginDTO) {
+
+    if(!userDTO.email || !userDTO.password) throw new UnauthorizedException('Invalid credintials')
     const user = await this.userService.findByLogin(userDTO);
     const payload: Payload = {
       email: user.email,
