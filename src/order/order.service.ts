@@ -139,7 +139,9 @@ export class OrderService {
        
         let varQty = q1.find(x => String(x._id) === products[i].variantIdOfProduct)
        
-  
+      //  console.log(q1)
+        console.log(products[i])
+
   //console.log(typeof products[i].variantIdOfProduct)
   
          product = await this.productModel.findOneAndUpdate(
@@ -150,7 +152,7 @@ export class OrderService {
           {
             $set: {
               qty: productQty.qty - products[i].qtyOfProduct,
-              'variants.$.qty':varQty.qty - products[i].qtyOfProduct
+              'variants.$.qty':{$inc : -products[i].qtyOfProduct} 
             },
           },{new:true}
         );
@@ -225,7 +227,7 @@ export class OrderService {
 
     const orderGet = await this.orderModel.findById(id).populate('user')
     let userToken:any[] = []
-      userToken.push(orderGet.user)
+      userToken.push(orderGet.products)
       if(userToken[0].mobileToken){
         //console.log(userToken[0].mobileToken)
         await this.userService.sendNotifications("Order Status " , `your ourder now is ${status}` 

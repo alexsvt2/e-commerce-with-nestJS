@@ -16,7 +16,7 @@ export const orderSchema = new mongoose.Schema({
       productId: { type: mongoose.Schema.Types.ObjectId, ref: 'Product' },
       qtyOfProduct: { type: Number },
       orginalProduct: { type: Object },
-      variantIdOfProduct: { String },
+      variantIdOfProduct: { type: String },
       variant: {
         variants: [
           {
