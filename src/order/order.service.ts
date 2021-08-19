@@ -137,7 +137,7 @@ export class OrderService {
       }else{
         let q1 = productQty.variants;
        
-        let varQty = q1.find(x => String(x._id) === products[i].variantIdOfProduct)
+        let varQty = q1.find(x => String(x._id) === products[i].variant.variants[0]._id)
        
       //  console.log(q1)
         console.log(products[i])
@@ -230,7 +230,7 @@ export class OrderService {
       userToken.push(orderGet.products)
       if(userToken[0].mobileToken){
         //console.log(userToken[0].mobileToken)
-        await this.userService.sendNotifications("Order Status " , `your ourder now is ${status}` 
+        await this.userService.sendNotifications("Order Status " , `your order now is ${status}` 
         , [userToken[0].mobileToken])
       }
 
