@@ -152,7 +152,7 @@ export class OrderService {
           {
             $set: {
               qty: productQty.qty - products[i].qtyOfProduct,
-              'variants.$.qty':{$inc : -products[i].qtyOfProduct} 
+              'variants.$.qty' : varQty.qty - products[i].qtyOfProduct 
             },
           },{new:true}
         );
