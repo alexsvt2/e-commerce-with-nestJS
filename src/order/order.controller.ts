@@ -63,7 +63,7 @@ export class OrderController {
     return await this.orderService.verfyChargePayment(body.status,orderId);
   }
 
-  @Post()
+ @Post()
  @UseGuards(AuthGuard('jwt') )
   async createOrder(
     @Body() orderDto: any,

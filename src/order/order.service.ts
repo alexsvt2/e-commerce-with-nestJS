@@ -93,10 +93,12 @@ export class OrderService {
     }
    
     
+
+    
     //await this.mailService.sendInvoice(invoice, order)
 
     // claculate the new qty of each product
-  //  await this.calculateNewQtyOfProducts(orderDto.products);
+   await this.calculateNewQtyOfProducts(orderDto.products);
     // finish
     return order;
   }
@@ -136,13 +138,10 @@ export class OrderService {
         // product.qty = product.qty - products[i].qtyOfProduct;
       }else{
         let q1 = productQty.variants;
-       
-        let varQty = q1.find(x => String(x._id) === products[i].variant.variants[0]._id)
-       
-      //  console.log(q1)
         console.log(products[i])
+        let varQty = q1.find(x => String(x._id) === products[i].variantIdOfProduct)
+        
 
-  //console.log(typeof products[i].variantIdOfProduct)
   
          product = await this.productModel.findOneAndUpdate(
           {
@@ -165,6 +164,58 @@ export class OrderService {
           if(updatedVariant)
           this.mailService.sendNotfyToAdmin(product.productName.en,"Please update this product qty")
         }
+      }
+  
+      //  product.qty = product.qty - products[i].qtyOfProduct;
+
+     
+    }
+
+
+  }
+
+
+  async calculateReturnedQtyOfProducts(products: cartProduct[]) {
+    for (let i = 0; i < products.length; i++) {
+      let product ;
+      // get the qty of each product
+      let productQty = await this.productModel.findById(products[i].productId);
+
+      if(productQty.variants.length === 0 ){
+     
+  
+         product = await this.productModel.findOneAndUpdate(
+          {
+            _id: products[i].productId
+          },
+          {
+            $set: {
+              qty: productQty.qty + products[i].qtyOfProduct
+            },
+          },
+        );
+      
+ 
+      }else{
+        let q1 = productQty.variants;
+       
+        let varQty = q1.find(x => String(x._id) === products[i].variantIdOfProduct)
+       
+  
+  
+         product = await this.productModel.findOneAndUpdate(
+          {
+            _id: products[i].productId,
+            'variants._id': products[i].variantIdOfProduct,
+          },
+          {
+            $set: {
+              qty: productQty.qty + products[i].qtyOfProduct,
+              'variants.$.qty' : varQty.qty + products[i].qtyOfProduct 
+            },
+          },{new:true}
+        );
+      
       }
   
       //  product.qty = product.qty - products[i].qtyOfProduct;
@@ -239,7 +290,6 @@ export class OrderService {
 
       // Qouyoud invoice
       if(status === "delivered"){
-        await this.calculateNewQtyOfProducts(orderGet.products);
         let QoyoudUserId;
         const user = await this.userService.getUserProfile(orderGet.user);
         if(!user.qoyoudId || user.qoyoudId === null) {
@@ -256,6 +306,8 @@ export class OrderService {
         }
         const invoice = await this.invoiceService.findById(orderGet.invoice)
         await this.qoyoudService.createInvoice(QoyoudUserId , invoice.sequenceId , invoice , orderGet)
+      } else if(status === "cancelled") {
+        await this.calculateReturnedQtyOfProducts(orderGet.products);
       }
 
 
