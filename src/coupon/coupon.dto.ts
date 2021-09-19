@@ -9,4 +9,8 @@ export class CouponDto {
   discount: Number;
   @ApiProperty()
   type: string;
+  @ApiProperty()
+  orderMin?: Number;
+  @ApiProperty()
+  expireDate?: Date;
 }

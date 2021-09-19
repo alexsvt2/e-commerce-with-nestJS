@@ -5,6 +5,8 @@ export const couponSchema = new mongoose.Schema({
   status: { type: Boolean, default: true },
   discount: Number,
   type: String,
+  orderMin: Number, 
+  expireDate: Date,
   createDate: {
     type: Date,
     default: Date.now,

@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Query,
   Post,
   Put,
 } from '@nestjs/common';
@@ -22,8 +23,8 @@ export class CouponController {
   }
 
   @Get('/getCoupon/:name')
-  async getByName(@Param('name') name: string) {
-    return await this.couponService.getByName(name);
+  async getByName(@Param('name') name: string , @Query("orderAmount") orderAmount?:number) {
+    return await this.couponService.getByName(name,orderAmount);
   }
 
   @Get('/getById/:id')

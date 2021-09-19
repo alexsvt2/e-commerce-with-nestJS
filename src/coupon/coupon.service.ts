@@ -29,15 +29,23 @@ export class CouponService {
     return coupon;
   }
 
-  async getByName(name: string) {
+  async getByName(name: string, orderAmount?: number) {
     const coupon = await this.couponModel.findOne({
       couponName: name,
       status: true,
     });
 
+    
     if (!coupon) {
       throw new HttpException('Invalid coupon', HttpStatus.NOT_FOUND);
     } else {
+      if(coupon.orderMin){
+        if(coupon.orderMin >= orderAmount) throw new HttpException(`Your order amount should be more than ${coupon.orderMin}`, HttpStatus.EXPECTATION_FAILED)
+      }
+      if(coupon.expireDate){
+        let today:Date = new Date();
+        if(coupon.expireDate.getTime() < today.getTime()) throw new HttpException(`this coupon is expired `, HttpStatus.EXPECTATION_FAILED)
+      }
       return coupon;
     }
   }

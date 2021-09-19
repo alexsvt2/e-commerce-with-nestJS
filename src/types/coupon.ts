@@ -6,4 +6,6 @@ export interface Coupon extends Document {
   status: boolean;
   discount: Number;
   type: string;
+  orderMin?: Number, 
+  expireDate?: Date,
 }
