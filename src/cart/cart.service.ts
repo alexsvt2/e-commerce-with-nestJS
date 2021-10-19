@@ -51,12 +51,24 @@ export class CartService {
       const productsList = userCartList.products;
       userCartList.products = productsList.filter((el) => el._id != productId);
      
-     userCartList.save();
-      return userCartList.populate('products.productId ')
+     await userCartList.save();
+      return await this.cartModel.findOne({'user':userId})
     } else{
       userCartList.products = [];
-      userCartList.save();
-      return userCartList.populate('products.productId ')
+      await userCartList.save();
+      return await this.cartModel.findOne({'user':userId})
     }
   }
+
+  async deleteAllCartItems(userId:string) {
+    const userCartList = await this.cartModel.findOne({'user':userId})
+    
+
+      userCartList.products = [];
+     
+      await userCartList.save();
+      return await this.cartModel.findOne({'user':userId})
+  
+}
+
 }

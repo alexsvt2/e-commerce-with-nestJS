@@ -35,4 +35,10 @@ export class CartController {
   async deleteCart( @Request() req ,@Param('productId') productId:string ) {
     return await this.cartService.deleteListCart(req.user._id,productId);
   }
+
+  @Delete('/delete-full-cart')
+  @UseGuards(AuthGuard('jwt')) 
+  async deleteAllItemsCart( @Request() req  ) {
+    return await this.cartService.deleteAllCartItems(req.user._id);
+  }
 }
